@@ -16,7 +16,7 @@ sudo docker compose up -d
 ```
 初始化数据库
 ```shell
-sudo docker exec flask-mysql "mysql -uroot -pexample < /db/setup.sql"
+sudo docker exec flask-mysql /bin/sh -c "mysql -uroot -pexample < /db/setup.sql"
 ```
 配置 python 虚拟环境
 

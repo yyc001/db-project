@@ -6,8 +6,8 @@ sudo service docker start
 # start mysql daemon
 sudo docker compose up -d
 # initialize database
-sudo docker exec flask-mysql "mysql -uroot -pexample < /db/setup.sql"
+sudo docker exec flask-mysql /bin/sh -c "mysql -uroot -pexample < /db/setup.sql"
 # create virtualenv
-python -m venv venv
-source ./venv/bin/activate
+python -m venv env
+source ./env/bin/activate
 pip install -r requirements.txt
