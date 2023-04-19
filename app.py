@@ -6,7 +6,7 @@ app = Flask(__name__,
             static_url_path='/'
         )
 app.config['SECRET_KEY'] = '\x0fW\xdc\x13\xeel(\xe9\xb5\xbaa\xa4\xc0\xb5\xaaK^\xd1Y\x81)#\x92T'
-
+app.config['PERMANENT_SESSION_LIFETIME']=datetime.timedelta(days=7)
 
 @app.route('/hello')
 def hello_world():  # put application's code here
@@ -58,6 +58,7 @@ def create_user():
 
 @app.route('/login')
 def login():
+    session['username']='user000000000000'
     return render_template("login.html")
 
 if __name__ == '__main__':
