@@ -1,7 +1,10 @@
 from flask import Flask, render_template
 import pymysql
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder='static',
+            static_url_path='/'
+        )
 app.config['SECRET_KEY'] = '\x0fW\xdc\x13\xeel(\xe9\xb5\xbaa\xa4\xc0\xb5\xaaK^\xd1Y\x81)#\x92T'
 
 
@@ -53,6 +56,9 @@ def create_user():
     db.close()
     return 'Success'
 
+@app.route('/login')
+def login():
+    return render_template("login.html")
 
 if __name__ == '__main__':
     app.run()
