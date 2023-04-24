@@ -1,7 +1,5 @@
-from typing import Optional
-
 import pymysql
-from pymysql.err import OperationalError, MySQLError
+from pymysql.err import OperationalError
 
 
 class SQLFactory:
@@ -29,11 +27,11 @@ class SQLFactory:
             self.db_user.close()
 
     def get_root_cursor(self):
-        return SQLCursor(self.db_root.cursor())
+        return self.db_root.cursor()
 
     def get_user_cursor(self):
         assert self.db_user is not None
-        return SQLCursor(self.db_user.cursor())
+        return self.db_user.cursor()
 
     def user_login(self, user, passwd, autocommit=True):
         try:
@@ -49,27 +47,6 @@ class SQLFactory:
             self.errno = -1
             self.errmsg = 'Access denied'
             return False
-
-
-class SQLCursor:
-    def __init__(self, cursor):
-        self.errmsg = None
-        self.errno = None
-        self.execute_query = None
-        self.cursor = cursor
-
-    def execute(self, query, *args):
-        self.execute_query = self.cursor.mogrify(query, args)
-        try:
-            rowcount = self.cursor.execute(self.execute_query)
-        except MySQLError as e:
-            self.errno, self.errmsg = e.args
-            return -1
-        return rowcount
-
-    def all_results(self):
-        for i in range(self.cursor.rowcount):
-            yield self.cursor.fetchone()
 
 
 if __name__ == "__main__":

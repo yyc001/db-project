@@ -49,10 +49,10 @@ def run_sql():
     factory = SQLFactory.get_instance()
     factory.user_login(session['username'], session['password'])
 
-    cursor = factory.get_user_cursor().cursor
     ret = {}
 
     try:
+        cursor = factory.get_user_cursor()
         rowcount = cursor.execute(query)    # TODO record queries
         ret["result"] = "success"
         ret["rowcount"] = rowcount
