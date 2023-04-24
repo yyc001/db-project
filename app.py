@@ -42,31 +42,42 @@ def login_action():
 
 @app.route('/user/execute', methods=["POST"])
 def run_sql():
+    if 'username' not in session:
+        return {
+            "result": "failure",
+            "errno": -1,
+            "errmsg": "Access denied",
+        }, 401
+
     query = request.form.get("sql", "")
     page_size = request.form.get("page-size", "")
     page_size = int(page_size) if page_size.isdigit() else 0
 
     factory = SQLFactory.get_instance()
-    factory.user_login(session['username'], session['password'])
-
-    ret = {}
+    if not factory.user_login(session['username'], session['password']):
+        return {
+            "result": "failure",
+            "errno": -2,
+            "errmsg": "Password changed",
+        }, 401
 
     try:
         cursor = factory.get_user_cursor()
         rowcount = cursor.execute(query)    # TODO record queries
-        ret["result"] = "success"
-        ret["rowcount"] = rowcount
-        ret["data"] = cursor.fetchmany(min(rowcount, page_size))
-        ret["description"] = cursor.description
+        return {
+            "result": "success",
+            "rowcount": rowcount,
+            "data": cursor.fetchmany(min(rowcount, page_size)),
+            "description": cursor.description,
+        }
 
     except MySQLError as e:
         errno, errmsg = e.args
-        ret["result"] = "failure"
-        ret["errno"] = errno
-        ret["errmsg"] = errmsg
-
-    print(ret)
-    return json.dumps(ret)
+        return {
+            "result": "failure",
+            "errno": errno,
+            "errmsg": errmsg,
+        }
 
 
 @app.route('/logout')
