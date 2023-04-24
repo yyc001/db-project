@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>登录</title>
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'><link rel="stylesheet" href="./login/style.css">
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <link rel="stylesheet" href="/login/style.css">
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <div class="login-form">
-  <form>
-    <h1>Login</h1>
-    <div class="content">
-      <div class="input-field">
-        <input type="username" placeholder="Username" autocomplete="nope">
-      </div>
-      <div class="input-field">
-        <input type="password" placeholder="Password" autocomplete="new-password">
-      </div>
-      <a href="#" class="link">Forgot Your Password?</a>
-    </div>
-    <div class="action">
-      <button>Register</button>
-      <button>Sign in</button>
-    </div>
-  </form>
+    <form action="/login/action" method="post">
+        <h1>Login</h1>
+        <div class="content">
+            <div class="input-field">
+                <input name="username" type="text" placeholder="Username" autocomplete="nope">
+            </div>
+            <div class="input-field">
+                <input name="password" type="password" placeholder="Password" autocomplete="new-password">
+            </div>
+            {% if failed %}
+            <div class="alert">Login Failed</div>
+            {% endif %}
+            <div class="action">
+                <button type="submit">Login</button>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- partial -->
-  <script  src="login/script.js"></script>
+<script src="/login/script.js"></script>
 
 </body>
 </html>

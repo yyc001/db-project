@@ -1,65 +1,79 @@
-from flask import Flask, render_template
-import pymysql
+import datetime
+
+from flask import Flask, render_template, session, redirect, request, json
+from pymysql import MySQLError
+
+from sql_factory import SQLFactory
 
 app = Flask(__name__,
             static_folder='static',
             static_url_path='/'
-        )
+            )
 app.config['SECRET_KEY'] = '\x0fW\xdc\x13\xeel(\xe9\xb5\xbaa\xa4\xc0\xb5\xaaK^\xd1Y\x81)#\x92T'
-app.config['PERMANENT_SESSION_LIFETIME']=datetime.timedelta(days=7)
-
-@app.route('/hello')
-def hello_world():  # put application's code here
-    # 打开数据库连接
-    db = pymysql.connect(host='localhost', user='root', passwd='example', port=3306)
-    # 使用 cursor() 方法创建一个游标对象 cursor
-    cursor = db.cursor()
-    # 使用 execute()  方法执行 SQL 查询
-    cursor.execute("SELECT VERSION()")
-    # 使用 fetchone() 方法获取单条数据.
-    data = cursor.fetchone()
-    ret = "Database version : %s " % data
-    # 关闭数据库连接
-    db.close()
-    return ret
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
 
 
 @app.route('/')
 def index():
-    return render_template("index.html", util="首页")
+    if session.get("username") is not None:
+        return render_template("index.html")
+    return redirect('/login')
 
-
-@app.route('/new')
-def create_user():
-    username = "student3".replace("`'% ", "")
-    password = "123456"
-    db = pymysql.connect(host='localhost', user='root', passwd='example', port=3306)
-    cursor = db.cursor()
-
-    query = cursor.mogrify("drop user if exists %s", (username,))
-    cursor.execute(query)
-
-    query = cursor.mogrify("create user %s@'%%' identified by %s", (username, password,))
-    cursor.execute(query)
-
-    query = cursor.mogrify("drop database if exists %s" % (username,))
-    cursor.execute(query)
-
-    # 我只能说转义字符并不是多么智能
-    query = cursor.mogrify("create database if not exists `" + username + "`")
-    cursor.execute(query)
-
-    query = cursor.mogrify("grant all on `" + username + "`.* to %s with grant option", (username, ))
-    cursor.execute(query)
-    # (('information_schema',), ('madb',), ('mbdb',), ('mysql',), ('performance_schema',), ('pub',), ('student1',),
-    #  ('student2',), ('student3',), ('sys',))
-    db.close()
-    return 'Success'
 
 @app.route('/login')
 def login():
-    session['username']='user000000000000'
-    return render_template("login.html")
+    failed = request.args.get("failed", 'false') == 'true'
+    return render_template("login.html", failed=failed)
+
+
+@app.route('/login/action', methods=["POST"])
+def login_action():
+    session.clear()
+    factory = SQLFactory()
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if factory.user_login(username, password):
+        session['username'] = username
+        session['password'] = password
+        return redirect("/")
+    else:
+        return redirect("/login?failed=true")
+
+
+@app.route('/user/execute', methods=["POST"])
+def run_sql():
+    query = request.form.get("sql", "")
+    page_size = request.form.get("page-size", "")
+    page_size = int(page_size) if page_size.isdigit() else 0
+
+    factory = SQLFactory.get_instance()
+    factory.user_login(session['username'], session['password'])
+
+    cursor = factory.get_user_cursor().cursor
+    ret = {}
+
+    try:
+        rowcount = cursor.execute(query)    # TODO record queries
+        ret["result"] = "success"
+        ret["rowcount"] = rowcount
+        ret["data"] = cursor.fetchmany(min(rowcount, page_size))
+        ret["description"] = cursor.description
+
+    except MySQLError as e:
+        errno, errmsg = e.args
+        ret["result"] = "failure"
+        ret["errno"] = errno
+        ret["errmsg"] = errmsg
+
+    print(ret)
+    return json.dumps(ret)
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
+
 
 if __name__ == '__main__':
     app.run()
