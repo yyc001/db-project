@@ -36,7 +36,13 @@ class SQLFactory:
     def user_login(self, user, passwd, autocommit=True):
         try:
             assert user and passwd and user != 'root'
-            self.db_user = pymysql.connect(host=SQLFactory.HOST, user=user, passwd=passwd, port=SQLFactory.PORT)
+            self.db_user = pymysql.connect(
+                host=SQLFactory.HOST,
+                user=user,
+                passwd=passwd,
+                port=SQLFactory.PORT,
+                database=user
+            )
             self.errno = 0
             self.db_user.autocommit(autocommit)
             return True
