@@ -16,7 +16,9 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
 @app.route('/')
 def index():
     if session.get("username") is not None:
-        return render_template("index.html")
+        #题目名字
+
+        return render_template("index.html",name="222")
     return redirect('/login')
 
 

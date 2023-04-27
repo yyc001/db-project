@@ -12,7 +12,10 @@
 
     <link href="/css/tether.min.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="codemirror-5.65.12/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror-5.65.12/theme/panda-syntax.css">
+    <link rel="stylesheet" href="codemirror-5.65.12/addon/fold/foldgutter.css">
+    <link rel="stylesheet" href="codemirror-5.65.12/addon/hint/show-hint.css">
 </head>
 <body>
 <div class="container-fluid">
@@ -90,39 +93,39 @@
                 <div class="card">
                     <div class="card-header">
                         <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
-                           href="#card-element-322860">Collapsible Group Item #1</a>
+                           href="#card-element-322860">题目集1</a>
                     </div>
                     <div id="card-element-322860" class="collapse show">
                         <div class="card-body">
-                            Anim pariatur cliche...
+                            1.1
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
-                           href="#card-element-506304">Collapsible Group Item #2</a>
+                           href="#card-element-506304">题目集2</a>
                     </div>
                     <div id="card-element-506304" class="collapse show">
                         <div class="card-body">
-                            Anim pariatur cliche...
+                            1.2
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
-                           href="#card-element-100000">Collapsible Group Item #3</a>
+                           href="#card-element-100000">题目集3</a>
                     </div>
                     <div id="card-element-100000" class="collapse show">
                         <div class="card-body">
-                            Anim pariatur cliche...
+                            3.1
                         </div>
                         <div class="card-body">
-                            Anim pariatur cliche...
+                            3.2
                         </div>
                         <div class="card-body">
-                            Anim pariatur cliche...
+                            3.3
                         </div>
                     </div>
                 </div>
@@ -132,31 +135,30 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3 class="text-center">
-                        h3. Lorem ipsum dolor sit amet.
+                        {{name}}
                     </h3>
                     <p>
-                        Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien
-                        sapien. Curabitur in metus urna. In hac habitasse platea dictumst. Phasellus eu sem sapien, sed
-                        vestibulum velit. Nam purus nibh, lacinia non faucibus et, pharetra in dolor. Sed iaculis
-                        posuere diam ut cursus. <em>Morbi commodo sodales nisi id sodales. Proin consectetur, nisi id
-                        commodo imperdiet, metus nunc consequat lectus, id bibendum diam velit et dui.</em> Proin massa
-                        magna, vulputate nec bibendum nec, posuere nec lacus. <small>Aliquam mi erat, aliquam vel luctus
-                        eu, pharetra quis elit. Nulla euismod ultrices massa, et feugiat ipsum consequat eu.</small>
+                        这是内容
                     </p>
                 </div>
                 <div class="col-md-4">
                     <span class="badge badge-primary">Label</span>
                     <div class="card">
                         <h5 class="card-header">
-                            Card title
+                            题目要求
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                Card content
+                                完成时间: “ ”
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                题目得分: “ ”
                             </p>
                         </div>
                         <div class="card-footer">
-                            Card footer
+                            Good Luck！
                         </div>
                     </div>
                     <table class="table">
@@ -166,13 +168,16 @@
                                 #
                             </th>
                             <th>
-                                Product
+                                用户
                             </th>
                             <th>
-                                Payment Taken
+                                题目
                             </th>
                             <th>
-                                Status
+                                时间
+                            </th>
+                            <th>
+                                状态
                             </th>
                         </tr>
                         </thead>
@@ -186,6 +191,9 @@
                             </td>
                             <td>
                                 01/04/2012
+                            </td>
+                            <td>
+                                De
                             </td>
                             <td>
                                 Default
@@ -257,17 +265,17 @@
                     ×
                 </button>
                 <h4>
-                    Alert!
-                </h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. <a href="#"
+                    Accept!
+                </h4> <strong>Congratulations!</strong> You submit is correct. <a href="#"
                                                                                                     class="alert-link">alert
                 link</a>
             </div>
             <div class="row">
                 <div class="col-md-8">
                     <form role="form" action="/user/execute" method="post">
-                        <textarea name="sql"></textarea>
-                        <input type="hidden" name="page-size" value="15">
-                        <button type="submit" class="btn btn-primary">
+                        <textarea id="code" name="sql" ></textarea>
+                        <!--<input type="hidden" name="page-size" value="50" >-->
+                        <button type="submit" class="btn btn-primary" >
                             Submit
                         </button>
                     </form>
@@ -305,7 +313,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="position: absolute;top:960px">
                 <div class="col-md-12">
                     <nav>
                         <ul class="pagination">
@@ -341,5 +349,35 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/tether.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="codemirror-5.65.12/lib/codemirror.js"></script>
+<!--sql代码高亮-->
+<script src="codemirror-5.65.12/mode/sql/sql.js"></script>
+<!--代码折叠-->
+<script src="codemirror-5.65.12/addon/fold/foldcode.js"></script>
+<script src="codemirror-5.65.12/addon/fold/foldgutter.js"></script>
+<script src="codemirror-5.65.12/addon/fold/brace-fold.js"></script>
+<script src="codemirror-5.65.12/addon/fold/comment-fold.js"></script>
+<script src="codemirror-5.65.12/addon/fold/indent-fold.js"></script>
+<script src="codemirror-5.65.12/addon/fold/markdown-fold.js"></script>
+<script src="codemirror-5.65.12/addon/fold/xml-fold.js"></script>
+<!--括号匹配-->
+<script src="codemirror-5.65.12/addon/edit/matchbrackets.js"></script>
+<!--自动补全-->
+<script src="codemirror-5.65.12/addon/hint/show-hint.js"></script>
+<script src="codemirror-5.65.12/addon/hint/anyword-hint.js"></script>
+<script src="codemirror-5.65.12/addon/hint/sql-hint.js"></script>
+<script>
+    var editor=CodeMirror.fromTextArea(document.getElementById("code"),{
+        mode:"text/x-sql",
+        // mode:"text/x-python",
+        lineNumbers: true,
+        theme: "panda-syntax",
+        lineWrapping: true,
+        foldGutter: true,
+        gutters:["CodeMirror-linenumbers","CodeMirror-foldgutter"],
+        matchBrackets: true,
+        extraKeys:{"Ctrl":"autocomplete"}
+    });
+</script>
 </body>
 </html>
