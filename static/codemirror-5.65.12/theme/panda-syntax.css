@@ -83,3 +83,14 @@
     color: #e6e6e6;
     opacity: 0.6;
 }
+
+.CodeMirror-hints.panda-syntax .CodeMirror-hint{
+  font-family: 'Operator Mono', 'Source Code Pro', Menlo, Monaco, Consolas, Courier New, monospace;
+  color: rgb(255, 255, 255) ;
+  background-color: rgb(66, 65, 65) !important;
+}
+
+.CodeMirror-hints.panda-syntax .CodeMirror-hint-active {
+  background-color: #0780fc  !important;
+  color: rgb(255, 255, 255) !important;
+}

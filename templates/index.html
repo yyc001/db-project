@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="codemirror-5.65.12/theme/panda-syntax.css">
     <link rel="stylesheet" href="codemirror-5.65.12/addon/fold/foldgutter.css">
     <link rel="stylesheet" href="codemirror-5.65.12/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="codemirror-5.65.12/addon/scroll/simplescrollbars.css">
 </head>
 <body>
 <div class="container-fluid">
@@ -366,17 +367,36 @@
 <script src="codemirror-5.65.12/addon/hint/show-hint.js"></script>
 <script src="codemirror-5.65.12/addon/hint/anyword-hint.js"></script>
 <script src="codemirror-5.65.12/addon/hint/sql-hint.js"></script>
+
+<!--滚动条-->
+<script src="codemirror-5.65.12/addon/scroll/simplescrollbars.js"></script>
+
+
 <script>
     var editor=CodeMirror.fromTextArea(document.getElementById("code"),{
-        mode:"text/x-sql",
+        mode:"text/x-mysql",
         // mode:"text/x-python",
         lineNumbers: true,
+        scrollbarStyle: "overlay",
         theme: "panda-syntax",
         lineWrapping: true,
+
         foldGutter: true,
         gutters:["CodeMirror-linenumbers","CodeMirror-foldgutter"],
         matchBrackets: true,
         extraKeys:{"Ctrl":"autocomplete"}
+
+    });
+    editor.on("keypress", (instance)=> {
+        instance.showHint(
+            {
+                completeSingle:false,
+                alignWithWord: false,
+                hint: CodeMirror.hint.sql,
+
+            }
+        )
+
     });
 </script>
 </body>

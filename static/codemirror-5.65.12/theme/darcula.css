@@ -41,12 +41,12 @@
 
 .cm-s-darcula div.CodeMirror-selected { background: #214283; }
 
-.CodeMirror-hints.darcula {
+
+.CodeMirror-hints.darcula .CodeMirror-hints{
   font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
-  color: #9C9E9E;
+  color: #ffffff;
   background-color: #3B3E3F !important;
 }
-
 .CodeMirror-hints.darcula .CodeMirror-hint-active {
   background-color: #494D4E !important;
   color: #9C9E9E !important;
