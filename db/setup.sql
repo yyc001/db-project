@@ -50,3 +50,13 @@ create table admin.test_table(
     test_desc varchar(100) not null 
 )
 
+create table admin.student_info(
+    sid varchar(12) not null,
+    --stu_name varchar(12) not null,
+);
+
+create view admin.student_score as
+    select sid, count(*) total_score
+    from admin.record
+    where result=='successful'
+    group by sid
