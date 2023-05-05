@@ -30,33 +30,36 @@ create database 'answer';
 create table answer.0_0(
     sid varchar(12) not null,
     name varchar(12) not null
-)
-insert into answer.0_0 values('123', 'yyc')
-insert into answer.0_0 values('125', 'gjc')
-insert into answer.0_0 values('127', 'cz')
+);
+insert into answer.0_0 values('123', 'yyc');
+insert into answer.0_0 values('125', 'gjc');
+insert into answer.0_0 values('127', 'cz');
 
-drop database if exists 'admin';
-create database 'admin';
-create table admin.record(
+drop database if exists 'manage';
+create database 'manage';
+use manage;
+
+create table record(
     sid varchar(12) not null,
     submission_time datetime not null,
     test_id varchar(12) not null,
     result varchar(30) not null
-)
-
-create table admin.test_table(
-    test_id varchar(12) not null,
-    test_name varchar(12) not null,
-    test_desc varchar(100) not null 
-)
-
-create table admin.student_info(
-    sid varchar(12) not null,
-    --stu_name varchar(12) not null,
 );
 
-create view admin.student_score as
+create table test_table(
+    test_id varchar(12) not null,
+    test_name varchar(12) not null,
+    test_desc varchar(100) not null
+);
+
+create table student_info(
+    sid varchar(12) not null,
+    sql_name varchar(20) not null
+    -- stu_name varchar(12) not null,
+);
+
+create view student_score as
     select sid, count(*) total_score
-    from admin.record
-    where result=='successful'
-    group by sid
+    from record
+    where result='success'
+    group by sid;
