@@ -8,23 +8,23 @@ class SQLFactory:
     HOST = "localhost"
     PORT = 3306
 
-    @classmethod
-    def get_instance(cls):
-        if cls.instance is None:
-            cls.instance = SQLFactory()
-        return cls.instance
-
     def __init__(self):
         self.db_root = pymysql.connect(host=SQLFactory.HOST, user='root', passwd='example', port=SQLFactory.PORT)
+        self.db_root.autocommit(True)
         self.db_user = None
         self.errno = 0
         self.errmsg = None
 
-    def __del__(self):
-        if self.db_root:
+    def closeAll(self):
+        if self.db_root and not self.db_root._closed:
+            self.db_root.cursor().close()
             self.db_root.close()
-        if self.db_user:
+        if self.db_user and not self.db_user._closed:
+            self.db_user.cursor().close()
             self.db_user.close()
+
+    def __del__(self):
+        self.closeAll()
 
     def get_root_cursor(self):
         return self.db_root.cursor()
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
 
 def __create_user(username, password):
-    username = username.replace("`'% ", "")
+    username = username.replace(r"[^a-zA-Z0-9]", "")
 
     db = pymysql.connect(host='localhost', user='root', passwd='example', port=3306)
     cursor = db.cursor()

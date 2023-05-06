@@ -25,18 +25,18 @@ grant select on pub.* to 'student2';
 
 
 
-drop database if exists 'answer';
-create database 'answer';
-create table answer.0_0(
+drop database if exists `answer`;
+create database `answer`;
+create table answer.test0_0(
     sid varchar(12) not null,
     name varchar(12) not null
 );
-insert into answer.0_0 values('123', 'yyc');
-insert into answer.0_0 values('125', 'gjc');
-insert into answer.0_0 values('127', 'cz');
+insert into answer.test0_0 values('123', 'yyc');
+insert into answer.test0_0 values('125', 'gjc');
+insert into answer.test0_0 values('127', 'cz');
 
-drop database if exists 'manage';
-create database 'manage';
+drop database if exists `manage`;
+create database `manage`;
 use manage;
 
 create table record(
@@ -49,8 +49,10 @@ create table record(
 create table test_table(
     test_id varchar(12) not null,
     test_name varchar(12) not null,
-    test_desc varchar(100) not null
+    test_desc text not null
 );
+insert into test_table values ('test0_0', '测试题目', '创建一个表test0_0，有两列    sid varchar(12) not null,
+    name varchar(12) not null， 插入三条数据("123", "yyc")、("125", "gjc")、("127", "cz")');
 
 create table student_info(
     sid varchar(12) not null,

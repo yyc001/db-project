@@ -56,47 +56,20 @@
                 ultrices massa, et feugiat ipsum consequat eu.</small>
             </p>
             <div class="progress">
-                <div class="progress-bar w-75">
-                </div>
+                <div class="progress-bar" style="width: {{ total_progress_percentage|d(75) }}%"></div>
             </div>
             <div id="card-216938">
                 <div class="card">
                     <div class="card-header">
                         <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
-                           href="#card-element-322860">题目集1</a>
+                           href="#card-element-123456">题目集0</a>
                     </div>
-                    <div id="card-element-322860" class="collapse show">
+                    <div id="card-element-123456" class="collapse show">
+                        {% for problem in problem_list %}
                         <div class="card-body">
-                            1.1
+                            {{ problem.title }}
                         </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
-                           href="#card-element-506304">题目集2</a>
-                    </div>
-                    <div id="card-element-506304" class="collapse show">
-                        <div class="card-body">
-                            1.2
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
-                           href="#card-element-100000">题目集3</a>
-                    </div>
-                    <div id="card-element-100000" class="collapse show">
-                        <div class="card-body">
-                            3.1
-                        </div>
-                        <div class="card-body">
-                            3.2
-                        </div>
-                        <div class="card-body">
-                            3.3
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -105,10 +78,10 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3 class="text-center">
-                        {{problem_title}}
+                        {{ problem.title|d("title") }}
                     </h3>
                     <p>
-                        {{problem_content}}
+                        {{ problem.description|d("description") }}
                     </p>
                 </div>
                 <div class="col-md-4">
@@ -119,106 +92,26 @@
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                完成时间: {{problem_time}}
+                                完成时间: {{ problem.expected_time|d("2023-06-01") }}
                             </p>
                         </div>
                         <div class="card-footer">
-                            题目得分: {{problem_your_score}}/{{problem_score}}
+                            题目得分: {{ problem_your_score|d(0) }}/{{ problem.score|d(1) }}
                         </div>
                     </div>
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                用户
-                            </th>
-                            <th>
-                                题目
-                            </th>
-                            <th>
-                                时间
-                            </th>
-                            <th>
-                                状态
-                            </th>
+                            <th>提交时间</th>
+                            <th>状态</th>
+                            <th>#</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                TB - Monthly
-                            </td>
-                            <td>
-                                01/04/2012
-                            </td>
-                            <td>
-                                De
-                            </td>
-                            <td>
-                                Default
-                            </td>
-                        </tr>
-                        <tr class="table-active">
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                TB - Monthly
-                            </td>
-                            <td>
-                                01/04/2012
-                            </td>
-                            <td>
-                                Approved
-                            </td>
-                        </tr>
-                        <tr class="table-success">
-                            <td>
-                                2
-                            </td>
-                            <td>
-                                TB - Monthly
-                            </td>
-                            <td>
-                                02/04/2012
-                            </td>
-                            <td>
-                                Declined
-                            </td>
-                        </tr>
-                        <tr class="table-warning">
-                            <td>
-                                3
-                            </td>
-                            <td>
-                                TB - Monthly
-                            </td>
-                            <td>
-                                03/04/2012
-                            </td>
-                            <td>
-                                Pending
-                            </td>
-                        </tr>
-                        <tr class="table-danger">
-                            <td>
-                                4
-                            </td>
-                            <td>
-                                TB - Monthly
-                            </td>
-                            <td>
-                                04/04/2012
-                            </td>
-                            <td>
-                                Call in to confirm
-                            </td>
+                        <tr class="table-{{ submit.status }}">
+                            <td>{{ submit.time }}</td>
+                            <td>{{ submit.status }}</td>
+                            <td>{{ submit.message }}</td>
                         </tr>
                         </tbody>
                     </table>
