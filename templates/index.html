@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,58 +10,109 @@
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
 
-    <link href="/css/tether.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="codemirror-5.65.12/lib/codemirror.css">
     <link rel="stylesheet" href="codemirror-5.65.12/theme/panda-syntax.css">
     <link rel="stylesheet" href="codemirror-5.65.12/addon/fold/foldgutter.css">
     <link rel="stylesheet" href="codemirror-5.65.12/addon/hint/show-hint.css">
     <link rel="stylesheet" href="codemirror-5.65.12/addon/scroll/simplescrollbars.css">
+    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+    <style>
+        .scrollspy-example {
+            position: relative;
+            height: 200px;
+            margin-top: .5rem;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+        .scrollspy-example::-webkit-scrollbar {
+          /*滚动条整体样式*/
+          width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
+          height: 1px;
+          }
+          .scrollspy-example::-webkit-scrollbar-thumb {
+          /*滚动条里面小方块*/
+          border-radius: 10px;
+          box-shadow   : inset 0 0 5px rgb(255, 255, 255);
+          background   : #0780fc;
+          }
+          .scrollspy-example::-webkit-scrollbar-track {
+          /*滚动条里面轨道*/
+          box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+          background   : #ededed;
+          }
+</style>
 </head>
 <body>
-<nav class="breadcrumb">
-  <a class="breadcrumb-item" href="#">Home</a>
-  <a class="breadcrumb-item" href="#">Library</a>
-  <a class="breadcrumb-item" href="#">Data</a>
-  <span class="breadcrumb-item active">Bootstrap</span>
-</nav>
-<nav class="navbar navbar-expand-sm bg-light">
+<nav class="navbar navbar-expand-lg bg-body-tertiary ">
+  <div class="container-fluid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.318 2.687C3.356 3.125 3 3.627 3 4c0 .374.356.875 1.318 1.313C5.234 5.729 6.536 6 8 6s2.766-.27 3.682-.687C12.644 4.875 13 4.373 13 4c0-.374-.356-.875-1.318-1.313C10.766 2.271 9.464 2 8 2s-2.766.27-3.682.687ZM13 5.698a4.92 4.92 0 0 1-.904.525C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 5.698V7c0 .374.356.875 1.318 1.313C5.234 8.729 6.536 9 8 9s2.766-.27 3.682-.687C12.644 7.875 13 7.373 13 7V5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698a4.92 4.92 0 0 1-.904.525C11.022 9.71 9.573 10 8 10s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 8.698V10c0 .374.356.875 1.318 1.313C5.234 11.729 6.536 12 8 12s2.766-.27 3.682-.687C12.644 10.875 13 10.373 13 10V8.698Zm0 3c-.271.202-.58.378-.904.525C11.022 12.71 9.573 13 8 13s-3.022-.289-4.096-.777A4.916 4.916 0 0 1 3 11.698V13c0 .374.356.875 1.318 1.313C5.234 14.729 6.536 15 8 15s2.766-.27 3.682-.687C12.644 13.875 13 13.373 13 13v-1.302Z"/>
+      </svg>
+      <a class="navbar-brand" href="#">数据库实验</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+      <button class="btn btn-primary" id="colormode">mode</button>
+    <div class="nav navbar-right">
 
-  <!-- Links -->
-  <ul class="navbar-nav" >
-    <li class="nav-item" style="display: inline-block">
-      <a class="nav-link" href="#">Link 1</a>
-    </li>
-    <li class="nav-item" style="display: inline-block">
-      <a class="nav-link" href="#">Link 2</a>
-    </li>
-    <li class="nav-item" style="display: inline-block">
-      <a class="nav-link" href="#">Link 3</a>
-    </li>
-  </ul>
+        <a>&nbsp;&nbsp;&nbsp;</a>
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+            </svg>
+        </a>
+        <a>&nbsp;&nbsp;&nbsp;</a>
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+            </svg>
+        </a>
+    </div>
+  </div>
 
 </nav>
-<div class="container-fluid">
+<div class="container-fluid ">
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">题目集x</a></li>
+    <li class="breadcrumb-item active" aria-current="page">题目xx</li>
+  </ol>
+</nav>
+</div>
+
+
+<div class="container-fluid " >
 
     <div class="row">
         <div class="col-md-2">
-            <p>
-                Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien sapien.
-                Curabitur in metus urna. In hac habitasse platea dictumst. Phasellus eu sem sapien, sed vestibulum
-                velit. Nam purus nibh, lacinia non faucibus et, pharetra in dolor. Sed iaculis posuere diam ut cursus.
-                <em>Morbi commodo sodales nisi id sodales. Proin consectetur, nisi id commodo imperdiet, metus nunc
-                    consequat lectus, id bibendum diam velit et dui.</em> Proin massa magna, vulputate nec bibendum nec,
-                posuere nec lacus. <small>Aliquam mi erat, aliquam vel luctus eu, pharetra quis elit. Nulla euismod
-                ultrices massa, et feugiat ipsum consequat eu.</small>
-            </p>
+            <div id="todolist">
+
+                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#todolist .list-group">To do list</button>
+                <ul class="list-group">
+                    <li class="list-group-item">添加</li>
+                    <li class="list-group-item">添加</li>
+                    <li class="list-group-item">添加</li>
+                </ul>
+            </div>
             <div class="progress">
                 <div class="progress-bar" style="width: {{ total_progress_percentage|d(75) }}%"></div>
             </div>
             <div id="card-216938">
                 <div class="card">
                     <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" data-parent="#card-216938"
+                        <a class="card-link" data-bs-toggle="collapse" data-parent="#card-216938"
                            href="#card-element-123456">题目集0</a>
                     </div>
                     <div id="card-element-123456" class="collapse show">
@@ -70,6 +121,9 @@
                             {{ problem.title }}
                         </div>
                         {% endfor %}
+                        <div class="card-body">
+                            <a href=www.baidu.com">sss</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,148 +173,137 @@
             </div>
             <div class="alert alert-success alert-dismissable">
 
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                    ×
-                </button>
+                <button type="button" class="btn-close" aria-label="Close"></button>
                 <h4>
                     Accept!
-                </h4> <strong>Congratulations!</strong> You submit is correct. <a href="#"
-                                                                                                    class="alert-link">alert
-                link</a>
+                </h4> <strong>Congratulations!</strong> You submit is correct.
+                <a href="#" class="alert-link">alert link</a>
             </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <form role="form" action="/user/execute" method="post">
-                        <textarea id="code" name="sql" ></textarea>
-                        <!--<input type="hidden" name="page-size" value="50" >-->
-                        <div class="btn-group" style="float:right">
-                            <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                commit
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                rollback
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-4">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <form id="sql_code" role="form" action="/user/execute" method="post">
+                            <textarea id="code" name="sql" ></textarea>
+                            <!--<input type="hidden" name="page-size" value="50" >-->
+                            <div class="btn-group" style="float:right">
+                                <button id="answer_run" type="submit" class="btn btn-success">
+                                    RUN
+                                </button>
+                                <button id="answer_submit" type="submit" class="btn btn-success">
+                                    SUBMIT
+                                </button>
 
-                    <button type="button" class="btn btn-success">
-                        Button
-                    </button>
-                    <ul>
-                        <li class="list-item">
-                            Lorem ipsum dolor sit amet
-                        </li>
-                        <li class="list-item">
-                            Consectetur adipiscing elit
-                        </li>
-                        <li class="list-item">
-                            Integer molestie lorem at massa
-                        </li>
-                        <li class="list-item">
-                            Facilisis in pretium nisl aliquet
-                        </li>
-                        <li class="list-item">
-                            Nulla volutpat aliquam velit
-                        </li>
-                        <li class="list-item">
-                            Faucibus porta lacus fringilla vel
-                        </li>
-                        <li class="list-item">
-                            Aenean sit amet erat nunc
-                        </li>
-                        <li class="list-item">
-                            Eget porttitor lorem
-                        </li>
-                    </ul>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="table_choice">Table: </label>
+                        <input id="table_choice" type="text" >
+                        <button id="ssss" type="button" class="btn btn-success">
+                            确定
+                        </button>
+                        <div id="my_test"> 隐藏 </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div id="list-example" class="list-group scrollspy-example">
+                                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                                    <a class="list-group-item list-group-item-action active" href="#list-item-4">Item 4</a>
+                                    <a class="list-group-item list-group-item-action" href="#list-item-5">Item 5</a>
+                                    <a class="list-group-item list-group-item-action" href="#list-item-6">Item 6</a>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+                                    <h4 id="list-item-1">Item 1</h4>
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                    <h4 id="list-item-2">Item 2</h4>
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                    <h4 id="list-item-3">Item 3</h4>
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                    <h4 id="list-item-4">Item 4</h4>
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                    <h4 id="list-item-5">Item 5</h4>
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                    <h4 id="list-item-6">Item 6</h4>
+                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row" >
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#yourtable" style="float:left">
-                    Student <span class="badge badge-light">number</span>
-                </button>
-            </div>
-            <div id="yourtable" class="row">
-                <table class="table table-hover table-bordered table-striped table-d table-info">
-                    <thead>
-                        <tr>
-                            <td>
-                                #
-                            </td>
-                            <td>
-                                sid
-                            </td>
-                            <td>
-                                sname
-                            </td>
-                            <td>
-                                age
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                202000001111
-                            </td>
-                            <td>
-                                山大
-                            </td>
-                            <td>
-                                100
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="row" style="float: left">
-                <div class="col-md-12">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#">Previous</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">4</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">5</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#yourtable" style="float:left">
+                        Student <span class="badge badge-light">number</span>
+                    </button>
                 </div>
-            </div>
-            </div>
+            <div id="yourtable" class="row">
+                    <table class="table table-hover table-bordered table-striped table-d ">
+                        <thead>
+                            <tr>
+                                {% for attr in table.description %}
+                                    <td>
+                                        {{ attr }}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        </thead>
 
+                        {% for item in table.result %}
+                            <tbody>
+                                <tr>
+                                    {% for attr in item %}
+                                    <td>
+                                        {{ attr }}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <div class="row" style="float: left">
+                    <div class="col-md-12">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Previous</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">4</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">5</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                </div>
         </div>
     </div>
 </div>
-
-<script src="/js/jquery.min.js"></script>
-<script src="/js/tether.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="codemirror-5.65.12/lib/codemirror.js"></script>
-<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+
 <!--sql代码高亮-->
 <script src="codemirror-5.65.12/mode/sql/sql.js"></script>
 <!--代码折叠-->
@@ -303,11 +346,131 @@
                 completeSingle:false,
                 alignWithWord: false,
                 hint: CodeMirror.hint.sql,
-
+                scrollbarStyle: "overlay",
             }
         )
 
     });
 </script>
+<style>
+  .ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
+  }
+  /* IE 6 不支持 max-height
+   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+   */
+  * html .ui-autocomplete {
+    height: 100px;
+  }
+  </style>
+
+<script>
+    var availableTable = [
+       "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+  $(document).ready(function() {
+    $("#ssss").click(function (){
+        $("#my_test").hide(1000);
+        alert("隐藏了")
+    });
+    $("#table_choice").autocomplete({
+        source: availableTable
+    });
+
+    //run
+    $("#answer_run").click(function (){
+        $.ajax({
+            type: "post",
+            url: "/",
+            data: $("#sql_code").serialize(),
+            success: function(data){
+                if(data == 'true') {
+                    alert("success run")
+                }
+            }
+        })
+    });
+    //submit
+    $("#answer_submit").click(function (){
+        $.ajax({
+            type: "post",
+            url: "/",
+            data: "is right?",
+            success: function(data){
+                if(data == "true") {
+                    alert("success submit")
+                }
+            }
+        })
+    });
+    $(function() {
+        $( "#sql_code" ).draggable({ revert: true });
+    });
+
+    $("#card-element-123456 .card-body").draggable({
+        appendTo: "body",
+        helper: "clone"
+    });
+    $( "#todolist .list-group " ).droppable({
+      activeClass: "ui-state-default",
+      hoverClass: "ui-state-hover",
+      accept: ":not(.ui-sortable-helper)",
+      drop: function( event, ui ) {
+        $( "<li class=\"list-group-item addtodolist\"></li>" ).text(ui.draggable.text()).appendTo( this );
+      },
+    }).sortable({
+      items: "li:not(.placeholder)",
+      sort: function() {
+        // 获取由 droppable 与 sortable 交互而加入的条目
+        // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
+        $( this ).removeClass( "ui-state-default" );
+      }
+    });
+
+
+    $("#colormode").click(function () {
+        var cur = $("html").attr("data-bs-theme");
+        var aft;
+        if(cur=="light"){
+            aft="dark"
+        }else{
+            aft="light"
+        }
+        $("html").attr('data-bs-theme', aft);
+    })
+  });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#todolist > ul > li,.addtodolist").dblclick(function (){
+            $(this).remove();
+        });
+    })
+</script>
 </body>
 </html>
+

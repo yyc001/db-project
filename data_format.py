@@ -1,3 +1,5 @@
+import re
+
 
 class Problem:
     def __init__(self, test_id, cursor):
@@ -19,3 +21,19 @@ class Submission:
             result = cursor.fetchone()
             self.time, self.message = result
             self.status = "success" if self.message == "success" else "danger"
+
+
+class Table:
+    def __init__(self, user, table_id, cursor):
+        # if re.match('^pub', table_id):
+        sql = """ select * from {} """.format(table_id)
+        cursor.execute(sql)
+        # else:
+        #     cursor.execute("select * from %s.%s", (user, table_id))
+        description = cursor.description
+        result = cursor.fetchall()
+        self.description = []
+        for i in range(len(description)):
+            self.description.append(description[i][0])
+        self.result = result
+

@@ -3,7 +3,7 @@ import datetime
 from flask import Flask, render_template, session, redirect, request, json
 from pymysql import MySQLError
 
-from data_format import Problem, Submission
+from data_format import Problem, Submission, Table
 from sql_factory import SQLFactory
 
 app = Flask(__name__,
@@ -21,7 +21,8 @@ def index():
         cursor = factory.get_root_cursor()
         problem = Problem("test0_0", cursor)
         submit = Submission(session.get("username"), "test0_0", cursor)
-        return render_template("index.html", problem=problem, problem_list=[problem], submit=submit)
+        table = Table("username", "pub.sc", cursor)
+        return render_template("index.html", problem=problem, problem_list=[problem], submit=submit, table=table)
     return redirect('/login')
 
 

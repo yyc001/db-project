@@ -1,5 +1,6 @@
 drop database if exists `pub`;
 create database `pub`;
+
 create table pub.sc (
     sid varchar(12) not null,
     cid varchar(12) not null,
