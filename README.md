@@ -47,6 +47,13 @@ which python
 
 
 ## use
+### 功能
+1.明暗模式
+2.todolist
+3.table look
+4.code input
+5.user information 待加
+6.rank 待家
 ### code
 代码框功能：
 

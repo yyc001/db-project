@@ -50,10 +50,15 @@ create table record(
 create table test_table(
     test_id varchar(12) not null,
     test_name varchar(12) not null,
-    test_desc text not null
+    test_desc text not null,
+    set_id varchar(12) not null
 );
+
+
+insert into test_table values ('start', '导航页', '从左边列表中选择题目', '-1');
 insert into test_table values ('test0_0', '测试题目', '创建一个表test0_0，有两列    sid varchar(12) not null,
-    name varchar(12) not null， 插入三条数据("123", "yyc")、("125", "gjc")、("127", "cz")');
+    name varchar(12) not null， 插入三条数据("123", "yyc")、("125", "gjc")、("127", "cz")', '0');
+
 
 create table student_info(
     sid varchar(12) not null,

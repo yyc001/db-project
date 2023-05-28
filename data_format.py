@@ -36,4 +36,13 @@ class Table:
         for i in range(len(description)):
             self.description.append(description[i][0])
         self.result = result
+        self.name = table_id
+        self.len = len(result)
+        print(type(self.result))
+
+class ProblemList:
+    def __init__(self, cursor):
+        cursor.execute("select * from manage.test_table where set_id!='-1' ")
+        result = cursor.fetchall()
+        self.result = result
 

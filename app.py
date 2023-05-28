@@ -3,7 +3,7 @@ import datetime
 from flask import Flask, render_template, session, redirect, request, json
 from pymysql import MySQLError
 
-from data_format import Problem, Submission, Table
+from data_format import Problem, Submission, Table, ProblemList
 from sql_factory import SQLFactory
 
 app = Flask(__name__,
@@ -19,10 +19,12 @@ def index():
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        problem = Problem("test0_0", cursor)
+        problem = Problem("start", cursor)
         submit = Submission(session.get("username"), "test0_0", cursor)
         table = Table("username", "pub.sc", cursor)
-        return render_template("index.html", problem=problem, problem_list=[problem], submit=submit, table=table)
+        problem_list = ProblemList(cursor)
+        path = {}
+        return render_template("index.html", problem=problem, submit=submit, table=table, problem_list=problem_list, path=path)
     return redirect('/login')
 
 
@@ -166,6 +168,20 @@ def check_same_table(user_db, test, cursor):
 def logout():
     session.clear()
     return redirect('/')
+
+
+@app.route('/question/<set_id>/<test_id>')
+def test(set_id, test_id):
+    if session.get("username") is not None:
+        factory = SQLFactory()
+        cursor = factory.get_root_cursor()
+        problem = Problem("test0_0", cursor)
+        submit = Submission(session.get("username"), "test0_0", cursor)
+        table = Table("username", "pub.sc", cursor)
+        path = {"set": set_id, "test": test_id}
+        problem_list = ProblemList(cursor)
+        return render_template("index.html", problem=problem, problem_list=problem_list, submit=submit, table=table, path=path)
+    return redirect('/login')
 
 
 if __name__ == '__main__':
