@@ -19,12 +19,11 @@ def index():
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        problem = Problem("start", cursor)
         submit = Submission(session.get("username"), "test0_0", cursor)
         table = Table("username", "pub.sc", cursor)
         problem_list = ProblemList(cursor)
         path = {}
-        return render_template("index.html", problem=problem, submit=submit, table=table, problem_list=problem_list, path=path)
+        return render_template("index.html", problem=None, submit=submit, table=table, problem_list=problem_list, path=path)
     return redirect('/login')
 
 
@@ -90,7 +89,7 @@ def run_sql():
         factory.closeAll()
 
 
-@app.route('/user/verify')
+@app.route('/user/verify', methods=["POST"])
 def verify():
     if 'username' not in session:
         return {
@@ -111,10 +110,10 @@ def verify():
             cursor.execute("update manage.record set result=%s,submission_time=now() where sid=%s and test_id=%s",
                            (message, username, test))
 
-        return json.dumps({
-            "result": "success",
+        return {
+            "result": "success" if message == "success" else "failure",
             "message": message,
-        }).encode().decode("unicode_escape")
+        }
     except MySQLError as e:
         errno, errmsg = e.args
         return {
@@ -175,8 +174,8 @@ def test(set_id, test_id):
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        problem = Problem("test0_0", cursor)
-        submit = Submission(session.get("username"), "test0_0", cursor)
+        problem = Problem(test_id, cursor)
+        submit = Submission(session.get("username"), test_id, cursor)
         table = Table("username", "pub.sc", cursor)
         path = {"set": set_id, "test": test_id}
         problem_list = ProblemList(cursor)

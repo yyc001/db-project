@@ -1,3 +1,4 @@
+/*!40101 SET NAMES utf8 */;
 drop database if exists `pub`;
 create database `pub`;
 

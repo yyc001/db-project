@@ -121,8 +121,8 @@
                     <div id="card-element-123456" class="collapse show">
                         {% for problem in problem_list.result %}
                         <div class="card-body">
-                            <a  href="/question/0/0">
-                                {{ problem[1] }}
+                            <a  href="/question/{{ problem[1] }}/{{ problem[0] }}">
+                                {{ problem[0] }}
                             </a>
                         </div>
                         {% endfor %}
@@ -173,25 +173,26 @@
                     </table>
                 </div>
             </div>
-            <div class="alert alert-success alert-dismissable">
-
-                <button type="button" class="btn-close" aria-label="Close"></button>
-                <h4>
-                    Accept!
-                </h4> <strong>Congratulations!</strong> You submit is correct.
-                <a href="#" class="alert-link">alert link</a>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="alert" id="alert">
+                        <h4 id="alert-title"></h4>
+                        <p id="alert-content"></p>
+                    </div>
+                </div>
             </div>
+            <br>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
                         <form id="sql_code" role="form" action="/user/execute" method="post">
-                            <textarea id="code" name="sql" ></textarea>
+                            <textarea id="code" name="sql"></textarea>
                             <!--<input type="hidden" name="page-size" value="50" >-->
                             <div class="btn-group" style="float:right">
-                                <button id="answer_run" type="submit" class="btn btn-success">
+                                <button id="answer_run" type="button" class="btn btn-success">
                                     RUN
                                 </button>
-                                <button id="answer_submit" type="submit" class="btn btn-success">
+                                <button id="answer_submit" type="button" class="btn btn-success">
                                     SUBMIT
                                 </button>
 
@@ -200,18 +201,19 @@
                     </div>
                     <div class="col-md-4">
                         <label for="table_choice">Table: </label>
-                        <input id="table_choice" type="text" >
+                        <input id="table_choice" type="text">
                         <button id="ssss" type="button" class="btn btn-success">
                             确定
                         </button>
-                        <div id="my_test"> 隐藏 </div>
+                        <div id="my_test"> 隐藏</div>
                         <div class="row">
                             <div class="col-4">
                                 <div id="list-example" class="list-group scrollspy-example">
                                     <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
                                     <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
                                     <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                                    <a class="list-group-item list-group-item-action active" href="#list-item-4">Item 4</a>
+                                    <a class="list-group-item list-group-item-action active" href="#list-item-4">Item
+                                        4</a>
                                     <a class="list-group-item list-group-item-action" href="#list-item-5">Item 5</a>
                                     <a class="list-group-item list-group-item-action" href="#list-item-6">Item 6</a>
                                 </div>
@@ -375,77 +377,104 @@
       "AppleScript",
       "Asp",
       "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"
     ];
-  $(document).ready(function() {
-    $("#ssss").click(function (){
-        $("#my_test").hide(1000);
-        alert("隐藏了")
-    });
-    $("#table_choice").autocomplete({
-        source: availableTable
-    });
+    $(document).ready(function () {
+        $("#table_choice").autocomplete({
+            source: availableTable
+        });
 
-    //run
-    $("#answer_run").click(function (){
-        $.ajax({
-            type: "post",
-            url: "/",
-            data: $("#sql_code").serialize(),
-            success: function(data){
-                if(data == 'true') {
-                    alert("success run")
+        //run
+        $("#answer_run").click(function () {
+            $(this).addClass("disabled")
+            editor.save()
+            console.log($("#sql_code").serialize())
+            $.ajax({
+                type: "post",
+                url: "/user/execute",
+                data: $("#sql_code").serialize(),
+                success: function (data) {
+                    console.log(data)
+                    if (data.result === 'success') {
+                        $("#alert").removeClass("alert-danger").addClass("alert-success")
+                        $("#alert-title").text("成功")
+                        $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
+                    } else {
+                        $("#alert").removeClass("alert-success").addClass("alert-danger")
+                        $("#alert-title").text("失败")
+                        $("#alert-content").text("[" + data.errno + "]" + data.errmsg)
+                    }
+                    $("#answer_run").removeClass("disabled")
+                },
+                failure: function () {
+                    $("#alert").removeClass("alert-success").addClass("alert-danger")
+                    $("#alert-title").text("失败")
+                    $("#alert-content").text("请求失败")
+                    $("#answer_run").removeClass("disabled")
                 }
-            }
-        })
-    });
-    //submit
-    $("#answer_submit").click(function (){
-        $.ajax({
-            type: "post",
-            url: "/",
-            data: "is right?",
-            success: function(data){
-                if(data == "true") {
-                    alert("success submit")
+            })
+        });
+        //submit
+        $("#answer_submit").click(function () {
+            $(this).addClass("disabled")
+            $.ajax({
+                type: "post",
+                url: "/user/verify",
+                data: {
+                    test: "{{ problem.idx|d("") }}"
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (data.result === 'success') {
+                        $("#alert").removeClass("alert-danger").addClass("alert-success")
+                        $("#alert-title").text("成功")
+                        $("#alert-content").text("提交成功")
+                    } else {
+                        $("#alert").removeClass("alert-success").addClass("alert-danger")
+                        $("#alert-title").text("失败")
+                        $("#alert-content").text(data.message)
+                    }
+                    $("#answer_submit").removeClass("disabled")
+                },
+                failure: function () {
+                    $("#alert").removeClass("alert-success").addClass("alert-danger")
+                    $("#alert-title").text("失败")
+                    $("#alert-content").text("请求失败")
+                    $("#answer_submit").removeClass("disabled")
                 }
-            }
-        })
-    });
-    $(function() {
-        $( "#sql_code" ).draggable({ revert: true });
-    });
+            })
+        });
 
-    $("#card-element-123456 .card-body").draggable({
-        appendTo: "body",
-        helper: "clone"
-    });
-    $( "#todolist .list-group " ).droppable({
-      activeClass: "ui-state-default",
-      hoverClass: "ui-state-hover",
-      accept: ":not(.ui-sortable-helper)",
-      drop: function( event, ui ) {
-        $( "<li class=\"list-group-item addtodolist\"></li>" ).text(ui.draggable.text()).appendTo( this );
-      },
-    }).sortable({
-      items: "li:not(.placeholder)",
+        $("#card-element-123456 .card-body").draggable({
+            appendTo: "body",
+            helper: "clone"
+        });
+        $("#todolist .list-group ").droppable({
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            accept: ":not(.ui-sortable-helper)",
+            drop: function (event, ui) {
+                $("<li class=\"list-group-item addtodolist\"></li>").text(ui.draggable.text()).appendTo(this);
+            },
+        }).sortable({
+            items: "li:not(.placeholder)",
       sort: function() {
         // 获取由 droppable 与 sortable 交互而加入的条目
         // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
@@ -465,13 +494,6 @@
         $("html").attr('data-bs-theme', aft);
     })
   });
-</script>
-<script>
-    $(document).ready(function () {
-        $("#todolist > ul > li,.addtodolist").dblclick(function (){
-            $(this).remove();
-        });
-    })
 </script>
 </body>
 </html>

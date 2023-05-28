@@ -40,9 +40,10 @@ class Table:
         self.len = len(result)
         print(type(self.result))
 
+
 class ProblemList:
     def __init__(self, cursor):
-        cursor.execute("select * from manage.test_table where set_id!='-1' ")
+        cursor.execute("select test_id,set_id from manage.test_table where set_id!='-1' ")
         result = cursor.fetchall()
         self.result = result
 
