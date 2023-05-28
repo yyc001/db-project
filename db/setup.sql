@@ -1,5 +1,6 @@
 drop database if exists `pub`;
 create database `pub`;
+
 create table pub.sc (
     sid varchar(12) not null,
     cid varchar(12) not null,
@@ -23,4 +24,50 @@ create database `student2`;
 grant all on student2.* to 'student2' with grant option;
 grant select on pub.* to 'student2';
 
-flush privileges;
+
+
+drop database if exists `answer`;
+create database `answer`;
+create table answer.test0_0(
+    sid varchar(12) not null,
+    name varchar(12) not null
+);
+insert into answer.test0_0 values('123', 'yyc');
+insert into answer.test0_0 values('125', 'gjc');
+insert into answer.test0_0 values('127', 'cz');
+
+drop database if exists `manage`;
+create database `manage`;
+use manage;
+
+create table record(
+    sid varchar(12) not null,
+    submission_time datetime not null,
+    test_id varchar(12) not null,
+    result varchar(30) not null
+);
+
+create table test_table(
+    test_id varchar(12) not null,
+    test_name varchar(12) not null,
+    test_desc text not null,
+    set_id varchar(12) not null
+);
+
+
+insert into test_table values ('start', '导航页', '从左边列表中选择题目', '-1');
+insert into test_table values ('test0_0', '测试题目', '创建一个表test0_0，有两列    sid varchar(12) not null,
+    name varchar(12) not null， 插入三条数据("123", "yyc")、("125", "gjc")、("127", "cz")', '0');
+
+
+create table student_info(
+    sid varchar(12) not null,
+    sql_name varchar(20) not null
+    -- stu_name varchar(12) not null,
+);
+
+create view student_score as
+    select sid, count(*) total_score
+    from record
+    where result='success'
+    group by sid;

@@ -1,0 +1,48 @@
+import re
+
+
+class Problem:
+    def __init__(self, test_id, cursor):
+        cursor.execute("select test_name, test_desc from manage.test_table where test_id=%s", (test_id,))
+        result = cursor.fetchone()
+        self.idx = test_id
+        self.title, self.description = result
+
+
+class Submission:
+    def __init__(self, sid, test_id, cursor):
+        cursor.execute("select submission_time, result from manage.record where sid=%s and test_id=%s", (sid, test_id))
+        if cursor.rowcount == 0:
+            self.time = "N/A"
+            self.message = ""
+            self.status = "default"
+            pass
+        else:
+            result = cursor.fetchone()
+            self.time, self.message = result
+            self.status = "success" if self.message == "success" else "danger"
+
+
+class Table:
+    def __init__(self, user, table_id, cursor):
+        # if re.match('^pub', table_id):
+        sql = """ select * from {} """.format(table_id)
+        cursor.execute(sql)
+        # else:
+        #     cursor.execute("select * from %s.%s", (user, table_id))
+        description = cursor.description
+        result = cursor.fetchall()
+        self.description = []
+        for i in range(len(description)):
+            self.description.append(description[i][0])
+        self.result = result
+        self.name = table_id
+        self.len = len(result)
+        print(type(self.result))
+
+class ProblemList:
+    def __init__(self, cursor):
+        cursor.execute("select * from manage.test_table where set_id!='-1' ")
+        result = cursor.fetchall()
+        self.result = result
+

@@ -44,3 +44,17 @@ sudo docker ps -a
 which python
 ```
 用 `sudo service docker restart` 可以重启 docker。
+
+
+## use
+### 功能
+1.明暗模式
+2.todolist
+3.table look
+4.code input
+5.user information 待加
+6.rank 待家
+### code
+代码框功能：
+
+代码高亮，代码补全，代码行号，括号匹配，代码折叠（sql代码暂时不能折叠）
