@@ -10,8 +10,7 @@
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/jui/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/codemirror-5.65.12/lib/codemirror.css">
     <link rel="stylesheet" href="/codemirror-5.65.12/theme/panda-syntax.css">
@@ -66,7 +65,7 @@
     <div class="nav navbar-right">
 
         <a>&nbsp;&nbsp;&nbsp;</a>
-        <a href="/logout">
+        <a href="/logout" >
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
                 <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
@@ -285,9 +284,8 @@
         </div>
     </div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="/jui/jquery-3.7.0.min.js"></script>
+<script src="/jui/jquery-ui.js"></script>
 <script src="/codemirror-5.65.12/lib/codemirror.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 
@@ -357,8 +355,8 @@
 
 <script>
     var availableTable = [
-        {% for table in table_list.result %}
-            "{{ table[0] }}",
+        {% for table in table_list.tables %}
+            "{{ table }}",
         {% endfor %}
     ];
 
