@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,23 +57,23 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarScroll">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form id="search_test_text" class="d-flex" role="form" onsubmit="return false">
+        <input id="search_test_input" class="form-control me-2" name="the_search_test" placeholder="题目,例如test0_0" >
+        <button id="search_test" class="btn btn-outline-success" type="button">Search</button>
       </form>
     </div>
       <button class="btn btn-primary" id="colormode">mode</button>
     <div class="nav navbar-right">
 
         <a>&nbsp;&nbsp;&nbsp;</a>
-        <a href="#">
+        <a href="/logout">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
                 <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
             </svg>
         </a>
         <a>&nbsp;&nbsp;&nbsp;</a>
-        <a href="#">
+        <a href="/profile">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
             </svg>
@@ -82,7 +82,7 @@
   </div>
 
 </nav>
-<div class="container-fluid ">
+<div class="container-fluid card border-primary border-start-0 border-end-0">
     <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -90,12 +90,11 @@
         <li class="breadcrumb-item"><a href="/">题目集{{ path['set'] }} </a></li>
         <li class="breadcrumb-item active" aria-current="page">题目{{ path['test'] }}</li>
     {% endif %}
-
   </ol>
 </nav>
 </div>
 
-
+<br>
 <div class="container-fluid " >
 
     <div class="row">
@@ -121,8 +120,8 @@
                     <div id="card-element-123456" class="collapse show">
                         {% for problem in problem_list.result %}
                         <div class="card-body">
-                            <a  href="/question/0/0">
-                                {{ problem[1] }}
+                            <a  href="/question/{{ problem[1] }}/{{ problem[0] }}">
+                                {{ problem[0] }}
                             </a>
                         </div>
                         {% endfor %}
@@ -134,10 +133,10 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3 class="text-center">
-                        {{ problem.title|d("title") }}
+                        {{ problem.title|d("导航页") }}
                     </h3>
                     <p>
-                        {{ problem.description|d("description") }}
+                        {{ problem.description|d("从左边选择题目") }}
                     </p>
                 </div>
                 <div class="col-md-4">
@@ -163,6 +162,7 @@
                             <th>#</th>
                         </tr>
                         </thead>
+                        {% if submit %}
                         <tbody>
                         <tr class="table-{{ submit.status }}">
                             <td>{{ submit.time }}</td>
@@ -170,28 +170,32 @@
                             <td>{{ submit.message }}</td>
                         </tr>
                         </tbody>
+                        {% endif %}
                     </table>
                 </div>
             </div>
-            <div class="alert alert-success alert-dismissable">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="alert alert-info" id="alert">
+                        <h4 id="alert-title"></h4>
+                        <p id="alert-content">学无止境 气有浩然</p>
 
-                <button type="button" class="btn-close" aria-label="Close"></button>
-                <h4>
-                    Accept!
-                </h4> <strong>Congratulations!</strong> You submit is correct.
-                <a href="#" class="alert-link">alert link</a>
+                    </div>
+                </div>
             </div>
+            <br>
+            <br>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
                         <form id="sql_code" role="form" action="/user/execute" method="post">
-                            <textarea id="code" name="sql" ></textarea>
+                            <textarea id="code" name="sql"></textarea>
                             <!--<input type="hidden" name="page-size" value="50" >-->
                             <div class="btn-group" style="float:right">
-                                <button id="answer_run" type="submit" class="btn btn-success">
+                                <button id="answer_run" type="button" class="btn btn-success">
                                     RUN
                                 </button>
-                                <button id="answer_submit" type="submit" class="btn btn-success">
+                                <button id="answer_submit" type="button" class="btn btn-success">
                                     SUBMIT
                                 </button>
 
@@ -199,73 +203,54 @@
                         </form>
                     </div>
                     <div class="col-md-4">
-                        <label for="table_choice">Table: </label>
-                        <input id="table_choice" type="text" >
-                        <button id="ssss" type="button" class="btn btn-success">
-                            确定
-                        </button>
-                        <div id="my_test"> 隐藏 </div>
+                        <label>常用表查询: </label>
+                        <form class="d-flex" role="search">
+                            <input id="search_table" aria-label="Search" class="form-control me-2" placeholder="常用表,例如pub.sc" type="search">
+                            <button id="search_table_button" class="btn btn-outline-success" type="button">Search</button>
+                        </form>
                         <div class="row">
                             <div class="col-4">
                                 <div id="list-example" class="list-group scrollspy-example">
-                                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                                    <a class="list-group-item list-group-item-action active" href="#list-item-4">Item 4</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-5">Item 5</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-6">Item 6</a>
+                                    {% for table_name in table_list.tables %}
+                                        {% if table_name == table_list.tables[0] %}
+                                        <a class="list-group-item list-group-item-action active common-table"
+                                           href="#list-{{ table_name }}">{{ table_name }}</a>
+                                        {% else %}
+                                        <a class="list-group-item list-group-item-action common-table"
+                                           href="#list-{{ table_name }}">{{ table_name }}</a>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-8">
-                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-                                    <h4 id="list-item-1">Item 1</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-2">Item 2</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-3">Item 3</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-4">Item 4</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-5">Item 5</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-6">Item 6</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0"
+                                     class="scrollspy-example" tabindex="0">
+                                    {% for table_name,create in table_list.create_tables.items() %}
+                                    <h4 id="list-{{ table_name }}">{{ table_name }}</h4>
+                                    {% autoescape false %}
+                                    <p>{{ create|replace("\n","<br>") }}</p>
+                                    {% endautoescape %}
 
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" >
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#yourtable" style="float:left">
-                        {{ table.name }} <span class="badge badge-light">number:{{ table.len }}</span>
-                    </button>
-                </div>
+            <br>
+            <br>
+            <div class="row">
+                <button class="btn btn-primary" data-bs-target="#yourtable" data-bs-toggle="collapse" style="float:left"
+                        type="button">
+                    <span id="result-table-name">{{ table.name |d('None') }}</span> <span id="result-table-size"
+                                                                                          class="badge badge-light">size:{{ table.len|d( 'None') }}</span>
+                </button>
+            </div>
             <div id="yourtable" class="row">
-                    <table class="table table-hover table-bordered table-striped table-d ">
-                        <thead>
-                            <tr>
-                                {% for attr in table.description %}
-                                    <td>
-                                        {{ attr }}
-                                    </td>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-
-                        {% for item in table.result %}
-                            <tbody>
-                                <tr>
-                                    {% for attr in item %}
-                                    <td>
-                                        {{ attr }}
-                                    </td>
-                                    {% endfor %}
-                                </tr>
-                            </tbody>
-                        {% endfor %}
-                    </table>
+                <table id="result-table" class="table table-hover table-bordered table-striped table-d ">
+                </table>
+                    {% if table %}
                     <div class="row" style="float: left">
                     <div class="col-md-12">
                         <nav>
@@ -295,6 +280,7 @@
                         </nav>
                     </div>
                 </div>
+                    {% endif %}
                 </div>
         </div>
     </div>
@@ -371,107 +357,164 @@
 
 <script>
     var availableTable = [
-       "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
+        {% for table in table_list.result %}
+            "{{ table[0] }}",
+        {% endfor %}
     ];
-  $(document).ready(function() {
-    $("#ssss").click(function (){
-        $("#my_test").hide(1000);
-        alert("隐藏了")
-    });
-    $("#table_choice").autocomplete({
-        source: availableTable
-    });
 
-    //run
-    $("#answer_run").click(function (){
-        $.ajax({
-            type: "post",
-            url: "/",
-            data: $("#sql_code").serialize(),
-            success: function(data){
-                if(data == 'true') {
-                    alert("success run")
-                }
-            }
-        })
-    });
-    //submit
-    $("#answer_submit").click(function (){
-        $.ajax({
-            type: "post",
-            url: "/",
-            data: "is right?",
-            success: function(data){
-                if(data == "true") {
-                    alert("success submit")
-                }
-            }
-        })
-    });
-    $(function() {
-        $( "#sql_code" ).draggable({ revert: true });
-    });
-
-    $("#card-element-123456 .card-body").draggable({
-        appendTo: "body",
-        helper: "clone"
-    });
-    $( "#todolist .list-group " ).droppable({
-      activeClass: "ui-state-default",
-      hoverClass: "ui-state-hover",
-      accept: ":not(.ui-sortable-helper)",
-      drop: function( event, ui ) {
-        $( "<li class=\"list-group-item addtodolist\"></li>" ).text(ui.draggable.text()).appendTo( this );
-      },
-    }).sortable({
-      items: "li:not(.placeholder)",
-      sort: function() {
-        // 获取由 droppable 与 sortable 交互而加入的条目
-        // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
-        $( this ).removeClass( "ui-state-default" );
-      }
-    });
-
-
-    $("#colormode").click(function () {
-        var cur = $("html").attr("data-bs-theme");
-        var aft;
-        if(cur=="light"){
-            aft="dark"
-        }else{
-            aft="light"
-        }
-        $("html").attr('data-bs-theme', aft);
-    })
-  });
-</script>
-<script>
     $(document).ready(function () {
-        $("#todolist > ul > li,.addtodolist").dblclick(function (){
-            $(this).remove();
+        $("#search_table").autocomplete({
+            source: availableTable
         });
-    })
+        //search test
+        $("#search_test").click(function () {
+           $.ajax({
+               type: "post",
+               url: "/search/test",
+               data: $("#search_test_text").serialize(),
+               success: function (data) {
+                   if(data.resp === 'success'){
+                       window.location.href = data.url
+                       $("#alert").removeClass("alert-danger").addClass("alert-success")
+                        $("#alert-title").text(data.info)
+                    } else {
+                        $("#alert").removeClass("alert-success").addClass("alert-danger")
+                        $("#alert-title").text(data.info)
+                   }
+                   $("#search_test").removeClass("disabled")
+               },
+               failure: function () {
+                    $("#search_test").removeClass("disabled")
+               }
+           })
+        });
+
+        function execute_success(table_name, data) {
+            if (data.result === 'success') {
+                $("#alert").removeClass("alert-danger").addClass("alert-success")
+                $("#alert-title").text("成功")
+                $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
+                let html = "<thead><tr>"
+                for (const row in data.description) {
+                    html += "<td>" + data.description[row][0] + "</td>"
+                }
+                html += "</tr></thead><tbody>"
+                for (const row in data.data) {
+                    html += "<tr>"
+                    for (const item in data.data[row]) {
+                        html += "<td>" + data.data[row][item] + "</td>"
+                    }
+                    html += "</tr>"
+                }
+                html += "</tbody>"
+                $("#result-table").html(html)
+                $("#result-table-name").text(table_name)
+                $("#result-table-size").text("size:" + data.rowcount)
+            } else {
+                $("#alert").removeClass("alert-success").addClass("alert-danger")
+                $("#alert-title").text("失败")
+                $("#alert-content").text("[" + data.errno + "]" + data.errmsg)
+            }
+            $("#answer_run").removeClass("disabled")
+        }
+
+        function execute_failure() {
+            $("#alert").removeClass("alert-success").addClass("alert-danger")
+            $("#alert-title").text("失败")
+            $("#alert-content").text("请求失败")
+            $("#answer_run").removeClass("disabled")
+        }
+
+        //run
+        $("#answer_run").click(function () {
+            $(this).addClass("disabled")
+            editor.save()
+            $.ajax({
+                type: "post",
+                url: "/user/execute",
+                data: $("#sql_code").serialize(),
+                success: function (data){
+                    execute_success("", data)
+                },
+                failure: execute_failure,
+            })
+        });
+        //submit
+        $("#answer_submit").click(function () {
+            $(this).addClass("disabled")
+            $.ajax({
+                type: "post",
+                url: "/user/verify",
+                data: {
+                    test: "{{ problem.idx|d("") }}"
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (data.result === 'success') {
+                        $("#alert").removeClass("alert-danger").addClass("alert-success")
+                        $("#alert-title").text("成功")
+                        $("#alert-content").text("提交成功")
+                    } else {
+                        $("#alert").removeClass("alert-success").addClass("alert-danger")
+                        $("#alert-title").text("失败")
+                        $("#alert-content").text(data.message)
+                    }
+                    $("#answer_submit").removeClass("disabled")
+                },
+                failure: function () {
+                    $("#alert").removeClass("alert-success").addClass("alert-danger")
+                    $("#alert-title").text("失败")
+                    $("#alert-content").text("请求失败")
+                    $("#answer_submit").removeClass("disabled")
+                }
+            })
+        });
+
+        $("#card-element-123456 .card-body").draggable({
+            appendTo: "body",
+            helper: "clone"
+        });
+        $("#todolist .list-group ").droppable({
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            accept: ":not(.ui-sortable-helper)",
+            drop: function (event, ui) {
+                $("<li class=\"list-group-item addtodolist\"></li>").text(ui.draggable.text()).appendTo(this);
+            },
+        }).sortable({
+            items: "li:not(.placeholder)",
+            sort: function () {
+                // 获取由 droppable 与 sortable 交互而加入的条目
+                // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
+                $(this).removeClass("ui-state-default");
+            }
+        });
+
+
+        $("#colormode").click(function () {
+            var cur = $("html").attr("data-bs-theme");
+            var aft;
+            if (cur == "light") {
+                aft = "dark"
+            } else {
+                aft = "light"
+            }
+            $("html").attr('data-bs-theme', aft);
+        });
+
+        $(".common-table").click(function () {
+            let table_name = $(this).text()
+            $.ajax({
+                type: "post",
+                url: "/user/find_table",
+                data: {'name': table_name},
+                success: function (data){
+                    execute_success(table_name, data)
+                },
+                failure: execute_failure,
+            })
+        });
+    });
 </script>
 </body>
 </html>

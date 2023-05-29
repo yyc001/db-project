@@ -1,9 +1,10 @@
 import datetime
+import re
 
-from flask import Flask, render_template, session, redirect, request, json
+from flask import Flask, render_template, session, redirect, request
 from pymysql import MySQLError
 
-from data_format import Problem, Submission, Table, ProblemList
+from data_format import Problem, Submission, Table, ProblemList, TableList
 from sql_factory import SQLFactory
 
 app = Flask(__name__,
@@ -19,12 +20,9 @@ def index():
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        problem = Problem("start", cursor)
-        submit = Submission(session.get("username"), "test0_0", cursor)
-        table = Table("username", "pub.sc", cursor)
-        problem_list = ProblemList(cursor)
-        path = {}
-        return render_template("index.html", problem=problem, submit=submit, table=table, problem_list=problem_list, path=path)
+        cursor.execute("select set_id,test_id from manage.test_table limit 1")
+        result = cursor.fetchone()
+        return redirect(f"/question/{result[0]}/{result[1]}")
     return redirect('/login')
 
 
@@ -52,10 +50,10 @@ def login_action():
 def run_sql():
     if 'username' not in session:
         return {
-            "result": "failure",
-            "errno": -1,
-            "errmsg": "Access denied",
-        }, 401
+                   "result": "failure",
+                   "errno": -1,
+                   "errmsg": "Access denied",
+               }, 401
 
     query = request.form.get("sql", "")
     page_size = request.form.get("page-size", "")
@@ -65,10 +63,10 @@ def run_sql():
     if not factory.user_login(session['username'], session['password']):
         factory.closeAll()
         return {
-            "result": "failure",
-            "errno": -2,
-            "errmsg": "Password changed",
-        }, 401
+                   "result": "failure",
+                   "errno": -2,
+                   "errmsg": "Password changed",
+               }, 401
 
     try:
         cursor = factory.get_user_cursor()
@@ -90,14 +88,14 @@ def run_sql():
         factory.closeAll()
 
 
-@app.route('/user/verify')
+@app.route('/user/verify', methods=["POST"])
 def verify():
     if 'username' not in session:
         return {
-            "result": "failure",
-            "errno": -1,
-            "errmsg": "Access denied",
-        }, 401
+                   "result": "failure",
+                   "errno": -1,
+                   "errmsg": "Access denied",
+               }, 401
     test = request.form.get("test", "test0_0")
     username = session.get("username")
     factory = SQLFactory()
@@ -111,16 +109,48 @@ def verify():
             cursor.execute("update manage.record set result=%s,submission_time=now() where sid=%s and test_id=%s",
                            (message, username, test))
 
-        return json.dumps({
-            "result": "success",
+        return {
+            "result": "success" if message == "success" else "failure",
             "message": message,
-        }).encode().decode("unicode_escape")
+        }
     except MySQLError as e:
         errno, errmsg = e.args
         return {
             "result": "failure",
             "errno": errno,
             "errmsg": errmsg,
+        }
+    finally:
+        factory.closeAll()
+
+
+@app.route('/search/test', methods=["POST"])
+def search_t():
+    ask = request.form.get("the_search_test", "")
+    factory = SQLFactory()
+
+    try:
+        cursor = factory.get_root_cursor()
+        answer = cursor.execute("select set_id,test_id from manage.test_table where test_id=%s", (ask,))
+        if answer:
+            result = cursor.fetchone()
+            return {
+                "resp": "success",
+                "url": "/question/{}/{}".format(result[0], result[1]),
+                "info": "成功搜索到题目{}".format(ask),
+            }
+        else:
+            return {
+                "resp": "failure",
+                "url": "",
+                "info": "失败搜索到题目{}".format(ask),
+            }
+    except MySQLError as e:
+        errno, errmsg = e.args
+        return {
+            "resp": "failure",
+            "url": "",
+            "info": "失败搜索到题目{}".format(ask),
         }
     finally:
         factory.closeAll()
@@ -175,13 +205,71 @@ def test(set_id, test_id):
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        problem = Problem("test0_0", cursor)
-        submit = Submission(session.get("username"), "test0_0", cursor)
+        problem = Problem(test_id, cursor)
+        submit = Submission(session.get("username"), test_id, cursor)
         table = Table("username", "pub.sc", cursor)
         path = {"set": set_id, "test": test_id}
         problem_list = ProblemList(cursor)
-        return render_template("index.html", problem=problem, problem_list=problem_list, submit=submit, table=table, path=path)
+        factory.user_login(session['username'], session['password'])
+        user_cursor = factory.get_user_cursor()
+        table_list = TableList(user_cursor)
+        return render_template("index.html",
+                               problem=problem,
+                               problem_list=problem_list,
+                               submit=submit,
+                               table=table,
+                               path=path,
+                               table_list=table_list,
+                               )
     return redirect('/login')
+
+
+@app.route('/profile')
+def profile():
+    return render_template("profile.html")
+
+
+@app.route('/user/find_table', methods=["POST"])
+def find_table():
+    if 'username' not in session:
+        return {
+                   "result": "failure",
+                   "errno": -1,
+                   "errmsg": "Access denied",
+               }, 401
+    regex = re.compile(r"^[a-zA-Z_.]+$")
+    name = request.form.get('name')
+    name = regex.match(name).group()
+    page_size = request.form.get("page-size", "")
+    page_size = int(page_size) if page_size.isdigit() else 15
+
+    factory = SQLFactory()
+    if not factory.user_login(session['username'], session['password']):
+        factory.closeAll()
+        return {
+                   "result": "failure",
+                   "errno": -2,
+                   "errmsg": "Password changed",
+               }, 401
+
+    try:
+        cursor = factory.get_user_cursor()
+        rowcount = cursor.execute("select * from " + name)
+        return {
+            "result": "success",
+            "rowcount": rowcount,
+            "data": cursor.fetchmany(min(rowcount, page_size)),
+            "description": cursor.description,
+        }
+    except MySQLError as e:
+        errno, errmsg = e.args
+        return {
+            "result": "failure",
+            "errno": errno,
+            "errmsg": errmsg,
+        }
+    finally:
+        factory.closeAll()
 
 
 if __name__ == '__main__':

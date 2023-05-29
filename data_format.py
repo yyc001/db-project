@@ -38,11 +38,25 @@ class Table:
         self.result = result
         self.name = table_id
         self.len = len(result)
-        print(type(self.result))
+
 
 class ProblemList:
     def __init__(self, cursor):
-        cursor.execute("select * from manage.test_table where set_id!='-1' ")
+        cursor.execute("select test_id,set_id from manage.test_table where set_id!='-1' ")
         result = cursor.fetchall()
         self.result = result
+
+
+class TableList:
+    def __init__(self, cursor):
+        cursor.execute("show tables")
+        user_tables = cursor.fetchall()
+        cursor.execute("show tables from pub")
+        pub_tables = cursor.fetchall()
+        self.tables = [x[0] for x in user_tables] + ["pub."+x[0] for x in pub_tables]
+        self.create_tables = {}
+        for table in self.tables:
+            cursor.execute("show create table " + table)
+            result = cursor.fetchone()
+            self.create_tables[table] = result[1]
 

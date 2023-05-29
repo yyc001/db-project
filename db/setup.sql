@@ -1,3 +1,4 @@
+/*!40101 SET NAMES utf8 */;
 drop database if exists `pub`;
 create database `pub`;
 
@@ -9,6 +10,13 @@ create table pub.sc (
 
 insert into pub.sc values ('123456789011', '098765432100', 90);
 
+create table pub.student (
+    sid varchar(12) not null,
+    name varchar(12) not null,
+    major varchar(12)
+);
+
+insert into pub.student values ('123456789011', 'gjc', 'CS');
 
 drop user if exists 'student1';
 drop database if exists `student1`;
@@ -35,6 +43,11 @@ create table answer.test0_0(
 insert into answer.test0_0 values('123', 'yyc');
 insert into answer.test0_0 values('125', 'gjc');
 insert into answer.test0_0 values('127', 'cz');
+create table answer.test0_1(
+    sid varchar(12) not null,
+    name varchar(12) not null
+);
+insert into answer.test0_1 values('123', 'yyc');
 
 drop database if exists `manage`;
 create database `manage`;
@@ -54,10 +67,10 @@ create table test_table(
     set_id varchar(12) not null
 );
 
-
-insert into test_table values ('start', '导航页', '从左边列表中选择题目', '-1');
 insert into test_table values ('test0_0', '测试题目', '创建一个表test0_0，有两列    sid varchar(12) not null,
     name varchar(12) not null， 插入三条数据("123", "yyc")、("125", "gjc")、("127", "cz")', '0');
+insert into test_table values ('test0_1', '测试题目2', '创建一个表test0_1，有两列    sid varchar(12) not null,
+    name varchar(12) not null， 插入一条数据("123", "yyc")', '0');
 
 
 create table student_info(
