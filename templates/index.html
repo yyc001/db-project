@@ -209,38 +209,31 @@
                         <div class="row">
                             <div class="col-4">
                                 <div id="list-example" class="list-group scrollspy-example">
-                                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                                    <a class="list-group-item list-group-item-action active" href="#list-item-4">Item
-                                        4</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-5">Item 5</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-6">Item 6</a>
+                                    {% for table_name in table_list.tables %}
+                                        <a class="list-group-item list-group-item-action"
+                                           href="#list-{{ table_name }}">{{ table_name }}</a>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-8">
-                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-                                    <h4 id="list-item-1">Item 1</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-2">Item 2</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-3">Item 3</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-4">Item 4</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-5">Item 5</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-6">Item 6</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0"
+                                     class="scrollspy-example" tabindex="0">
+                                    {% for table_name,create in table_list.create_tables.items() %}
+                                    <h4 id="list-{{ table_name }}">{{ table_name }}</h4>
+                                    {% autoescape false %}
+                                    <p>{{ create|replace("\n","<br>") }}</p>
+                                    {% endautoescape %}
 
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" >
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#yourtable" style="float:left">
+            <div class="row">
+                <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#yourtable"
+                        style="float:left">
                         {{ table.name }} <span class="badge badge-light">number:{{ table.len }}</span>
                     </button>
                 </div>
@@ -405,7 +398,6 @@
         $("#answer_run").click(function () {
             $(this).addClass("disabled")
             editor.save()
-            console.log($("#sql_code").serialize())
             $.ajax({
                 type: "post",
                 url: "/user/execute",
@@ -416,6 +408,7 @@
                         $("#alert").removeClass("alert-danger").addClass("alert-success")
                         $("#alert-title").text("成功")
                         $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
+
                     } else {
                         $("#alert").removeClass("alert-success").addClass("alert-danger")
                         $("#alert-title").text("失败")

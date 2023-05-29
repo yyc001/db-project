@@ -3,7 +3,7 @@ import datetime
 from flask import Flask, render_template, session, redirect, request, json
 from pymysql import MySQLError
 
-from data_format import Problem, Submission, Table, ProblemList
+from data_format import Problem, Submission, Table, ProblemList, TableList
 from sql_factory import SQLFactory
 
 app = Flask(__name__,
@@ -19,11 +19,9 @@ def index():
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        submit = Submission(session.get("username"), "test0_0", cursor)
-        table = Table("username", "pub.sc", cursor)
-        problem_list = ProblemList(cursor)
-        path = {}
-        return render_template("index.html", problem=None, submit=submit, table=table, problem_list=problem_list, path=path)
+        cursor.execute("select set_id,test_id from manage.test_table limit 1")
+        result = cursor.fetchone()
+        return redirect(f"/question/{result[0]}/{result[1]}")
     return redirect('/login')
 
 
@@ -179,7 +177,17 @@ def test(set_id, test_id):
         table = Table("username", "pub.sc", cursor)
         path = {"set": set_id, "test": test_id}
         problem_list = ProblemList(cursor)
-        return render_template("index.html", problem=problem, problem_list=problem_list, submit=submit, table=table, path=path)
+        factory.user_login(session['username'], session['password'])
+        user_cursor = factory.get_user_cursor()
+        table_list = TableList(user_cursor)
+        return render_template("index.html",
+                               problem=problem,
+                               problem_list=problem_list,
+                               submit=submit,
+                               table=table,
+                               path=path,
+                               table_list=table_list,
+                               )
     return redirect('/login')
 
 
