@@ -20,36 +20,66 @@
     <link rel="stylesheet" href="/css/utilities.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-  <div class="container-fluid">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M4.318 2.687C3.356 3.125 3 3.627 3 4c0 .374.356.875 1.318 1.313C5.234 5.729 6.536 6 8 6s2.766-.27 3.682-.687C12.644 4.875 13 4.373 13 4c0-.374-.356-.875-1.318-1.313C10.766 2.271 9.464 2 8 2s-2.766.27-3.682.687ZM13 5.698a4.92 4.92 0 0 1-.904.525C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 5.698V7c0 .374.356.875 1.318 1.313C5.234 8.729 6.536 9 8 9s2.766-.27 3.682-.687C12.644 7.875 13 7.373 13 7V5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698a4.92 4.92 0 0 1-.904.525C11.022 9.71 9.573 10 8 10s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 8.698V10c0 .374.356.875 1.318 1.313C5.234 11.729 6.536 12 8 12s2.766-.27 3.682-.687C12.644 10.875 13 10.373 13 10V8.698Zm0 3c-.271.202-.58.378-.904.525C11.022 12.71 9.573 13 8 13s-3.022-.289-4.096-.777A4.916 4.916 0 0 1 3 11.698V13c0 .374.356.875 1.318 1.313C5.234 14.729 6.536 15 8 15s2.766-.27 3.682-.687C12.644 13.875 13 13.373 13 13v-1.302Z"/>
-      </svg>
-      <a class="navbar-brand" href="#">数据库实验</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarScroll">
-      <form id="search_test_text" class="d-flex" role="form" onsubmit="return false">
-        <input id="search_test_input" class="form-control me-2" name="the_search_test" placeholder="题目,例如test0_0" >
-        <button id="search_test" class="btn btn-outline-success" type="button">Search</button>
-      </form>
+<nav class="navbar navbar-expand-lg bg-body-tertiary ">
+    <div class="container-fluid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database"
+             viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M4.318 2.687C3.356 3.125 3 3.627 3 4c0 .374.356.875 1.318 1.313C5.234 5.729 6.536 6 8 6s2.766-.27 3.682-.687C12.644 4.875 13 4.373 13 4c0-.374-.356-.875-1.318-1.313C10.766 2.271 9.464 2 8 2s-2.766.27-3.682.687ZM13 5.698a4.92 4.92 0 0 1-.904.525C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 5.698V7c0 .374.356.875 1.318 1.313C5.234 8.729 6.536 9 8 9s2.766-.27 3.682-.687C12.644 7.875 13 7.373 13 7V5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698a4.92 4.92 0 0 1-.904.525C11.022 9.71 9.573 10 8 10s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 8.698V10c0 .374.356.875 1.318 1.313C5.234 11.729 6.536 12 8 12s2.766-.27 3.682-.687C12.644 10.875 13 10.373 13 10V8.698Zm0 3c-.271.202-.58.378-.904.525C11.022 12.71 9.573 13 8 13s-3.022-.289-4.096-.777A4.916 4.916 0 0 1 3 11.698V13c0 .374.356.875 1.318 1.313C5.234 14.729 6.536 15 8 15s2.766-.27 3.682-.687C12.644 13.875 13 13.373 13 13v-1.302Z"/>
+        </svg>
+        <a class="navbar-brand" href="#">数据库实验</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <form id="search_test_text" class="d-flex" role="form" onsubmit="return false">
+                <input id="search_test_input" class="form-control me-2" name="the_search_test"
+                       placeholder="题目,例如test0_0">
+                <button id="search_test" class="btn btn-outline-success" type="button">Search</button>
+            </form>
+        </div>
+        <button class="btn btn-primary" id="colormode">mode</button>
     </div>
-      <button class="btn btn-primary" id="colormode">mode</button>
-    <div class="nav navbar-right">
+</nav>
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database"
+             viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M4.318 2.687C3.356 3.125 3 3.627 3 4c0 .374.356.875 1.318 1.313C5.234 5.729 6.536 6 8 6s2.766-.27 3.682-.687C12.644 4.875 13 4.373 13 4c0-.374-.356-.875-1.318-1.313C10.766 2.271 9.464 2 8 2s-2.766.27-3.682.687ZM13 5.698a4.92 4.92 0 0 1-.904.525C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 5.698V7c0 .374.356.875 1.318 1.313C5.234 8.729 6.536 9 8 9s2.766-.27 3.682-.687C12.644 7.875 13 7.373 13 7V5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698a4.92 4.92 0 0 1-.904.525C11.022 9.71 9.573 10 8 10s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 8.698V10c0 .374.356.875 1.318 1.313C5.234 11.729 6.536 12 8 12s2.766-.27 3.682-.687C12.644 10.875 13 10.373 13 10V8.698Zm0 3c-.271.202-.58.378-.904.525C11.022 12.71 9.573 13 8 13s-3.022-.289-4.096-.777A4.916 4.916 0 0 1 3 11.698V13c0 .374.356.875 1.318 1.313C5.234 14.729 6.536 15 8 15s2.766-.27 3.682-.687C12.644 13.875 13 13.373 13 13v-1.302Z"/>
+        </svg>
+        <a class="navbar-brand" href="#">数据库实验</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <form id="search_test_text" class="d-flex" role="form" onsubmit="return false">
+                <input id="search_test_input" class="form-control me-2" name="the_search_test"
+                       placeholder="题目,例如test0_0">
+                <button id="search_test" class="btn btn-outline-success" type="button">Search</button>
+            </form>
+        </div>
+        <button class="btn btn-primary" id="colormode">mode</button>
+        <div class="nav navbar-right">
 
-        <a>&nbsp;&nbsp;&nbsp;</a>
-        <a href="/logout" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
-                <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
-            </svg>
-        </a>
-        <a>&nbsp;&nbsp;&nbsp;</a>
-        <a href="/profile">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-            </svg>
+            <a>&nbsp;&nbsp;&nbsp;</a>
+            <a href="/logout">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                    <path fill-rule="evenodd"
+                          d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                </svg>
+            </a>
+            <a>&nbsp;&nbsp;&nbsp;</a>
+            <a href="/profile">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person"
+                     viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
         </a>
     </div>
   </div>
@@ -68,19 +98,9 @@
 </div>
 
 <br>
-<div class="container-fluid " >
-
+<div class="container-fluid" >
     <div class="row">
         <div class="col-md-2">
-            <div id="todolist">
-
-                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#todolist .list-group">To do list</button>
-                <ul class="list-group">
-                    <li class="list-group-item">添加</li>
-                    <li class="list-group-item">添加</li>
-                    <li class="list-group-item">添加</li>
-                </ul>
-            </div>
             <div class="progress">
                 <div class="progress-bar" style="width: {{ total_progress_percentage|d(75) }}%"></div>
             </div>
@@ -124,7 +144,7 @@
                             </p>
                         </div>
                         <div class="card-footer">
-                            题目得分: {{ problem_your_score|d(0) }}/{{ problem.score|d(1) }}
+                            题目得分: {{ submit.score|d(0) }}/{{ problem.score|d(1) }}
                         </div>
                     </div>
                     <table class="table">
@@ -185,13 +205,8 @@
                             <div class="col-4">
                                 <div id="list-example" class="list-group scrollspy-example">
                                     {% for table_name in table_list.tables %}
-                                        {% if table_name == table_list.tables[0] %}
-                                        <a class="list-group-item list-group-item-action active common-table"
-                                           href="#list-{{ table_name }}">{{ table_name }}</a>
-                                        {% else %}
                                         <a class="list-group-item list-group-item-action common-table"
                                            href="#list-{{ table_name }}">{{ table_name }}</a>
-                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -216,49 +231,39 @@
             <div class="row">
                 <button class="btn btn-primary" data-bs-target="#yourtable" data-bs-toggle="collapse" style="float:left"
                         type="button">
-                    <span id="result-table-name">{{ table.name |d('None') }}</span> <span id="result-table-size"
-                                                                                          class="badge badge-light">size:{{ table.len|d( 'None') }}</span>
+                    <span id="result-table-name"></span>
+                    <span id="result-table-size" class="badge badge-light">size:0</span>
                 </button>
             </div>
             <div id="yourtable" class="row">
                 <table id="result-table" class="table table-hover table-bordered table-striped table-d ">
                 </table>
-                    {% if table %}
-                    <div class="row" style="float: left">
+                <div class="row" style="float: left">
                     <div class="col-md-12">
                         <nav>
-                            <ul class="pagination">
+                            <ul class="pagination" id="select-page-bar">
                                 <li class="page-item">
-                                    <a class="page-link" href="#">Previous</a>
+                                    <a class="page-link" id="select-page-f">First</a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#">1</a>
+                                    <a class="page-link" id="select-page-p">Previous</a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
+                                    <a class="page-link" id="select-page-n">Next</a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">5</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
+                                    <a class="page-link" id="select-page-l">Last</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                    {% endif %}
-                </div>
+            </div>
             <div id="vcomments"></div>
             <div id="goTopBtn"><span class="glyphicon glyphicon-chevron-up">&Delta;</span></div>
         </div>
     </div>
+    <div id="content" class="mw-body" role="main"></div>
 </div>
 <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 <script src="/jui/jquery-3.7.0.min.js"></script>
@@ -269,53 +274,40 @@
 
 <!--sql代码高亮-->
 <script src="/codemirror-5.65.12/mode/sql/sql.js"></script>
-<!--代码折叠-->
-<script src="/codemirror-5.65.12/addon/fold/foldcode.js"></script>
-<script src="/codemirror-5.65.12/addon/fold/foldgutter.js"></script>
-<script src="/codemirror-5.65.12/addon/fold/brace-fold.js"></script>
-<script src="/codemirror-5.65.12/addon/fold/comment-fold.js"></script>
-<script src="/codemirror-5.65.12/addon/fold/indent-fold.js"></script>
-<script src="/codemirror-5.65.12/addon/fold/markdown-fold.js"></script>
-<script src="/codemirror-5.65.12/addon/fold/xml-fold.js"></script>
 <!--括号匹配-->
 <script src="/codemirror-5.65.12/addon/edit/matchbrackets.js"></script>
 <!--自动补全-->
 <script src="/codemirror-5.65.12/addon/hint/show-hint.js"></script>
 <script src="/codemirror-5.65.12/addon/hint/anyword-hint.js"></script>
 <script src="/codemirror-5.65.12/addon/hint/sql-hint.js"></script>
-
 <!--滚动条-->
 <script src="/codemirror-5.65.12/addon/scroll/simplescrollbars.js"></script>
 <!--小火箭-->
-<script src="js/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/gsap/1.19.0/TweenMax.min.js"></script>
 <script src="http://cdn.bootcss.com/gsap/1.19.0/plugins/ScrollToPlugin.min.js"></script>
 <script>
-        new Valine({
-            el: '#vcomments',
-            appId: 'vOfMCZfwKKAvgO1LzoVVYEv1-gzGzoHsz',
-            appKey: 'IJ3Of3KSmaIS9Oe7dMeLIZp9'
-        })
-    </script>
-<script>
-    var editor=CodeMirror.fromTextArea(document.getElementById("code"),{
-        mode:"text/x-mysql",
+    new Valine({
+        el: '#vcomments',
+        appId: 'vOfMCZfwKKAvgO1LzoVVYEv1-gzGzoHsz',
+        appKey: 'IJ3Of3KSmaIS9Oe7dMeLIZp9'
+    })
+    const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "text/x-mysql",
         // mode:"text/x-python",
         lineNumbers: true,
         scrollbarStyle: "overlay",
         theme: "panda-syntax",
         lineWrapping: true,
-
         foldGutter: true,
-        gutters:["CodeMirror-linenumbers","CodeMirror-foldgutter"],
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         matchBrackets: true,
-        extraKeys:{"Ctrl":"autocomplete"}
+        extraKeys: {"Ctrl": "autocomplete"}
 
     });
-    editor.on("keypress", (instance)=> {
+    editor.on("keypress", (instance) => {
         instance.showHint(
             {
-                completeSingle:false,
+                completeSingle: false,
                 alignWithWord: false,
                 hint: CodeMirror.hint.sql,
                 scrollbarStyle: "overlay",
@@ -323,24 +315,7 @@
         )
 
     });
-</script>
-<style>
-  .ui-autocomplete {
-    max-height: 100px;
-    overflow-y: auto;
-    /* 防止水平滚动条 */
-    overflow-x: hidden;
-  }
-  /* IE 6 不支持 max-height
-   * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
-   */
-  * html .ui-autocomplete {
-    height: 100px;
-  }
-  </style>
-
-<script>
-    var availableTable = [
+    const availableTable = [
         {% for table in table_list.tables %}
             "{{ table }}",
         {% endfor %}
@@ -362,16 +337,18 @@
                        $("#alert").removeClass("alert-danger").addClass("alert-success")
                         $("#alert-title").text(data.info)
                     } else {
-                        $("#alert").removeClass("alert-success").addClass("alert-danger")
-                        $("#alert-title").text(data.info)
+                       $("#alert").removeClass("alert-success").addClass("alert-danger")
+                       $("#alert-title").text(data.info)
                    }
                    $("#search_test").removeClass("disabled")
                },
                failure: function () {
-                    $("#search_test").removeClass("disabled")
+                   $("#search_test").removeClass("disabled")
                }
            })
         });
+        let page_num = 0
+        let max_page = 0
 
         function execute_success(table_name, data) {
             if (data.result === 'success') {
@@ -380,7 +357,7 @@
                 $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
                 let html = "<thead><tr>"
                 for (const row in data.description) {
-                    html += "<td>" + data.description[row][0] + "</td>"
+                    html += "<th>" + data.description[row][0] + "</th>"
                 }
                 html += "</tr></thead><tbody>"
                 for (const row in data.data) {
@@ -394,6 +371,7 @@
                 $("#result-table").html(html)
                 $("#result-table-name").text(table_name)
                 $("#result-table-size").text("size:" + data.rowcount)
+                max_page = Math.floor((data.rowcount - 1) / 15)
             } else {
                 $("#alert").removeClass("alert-success").addClass("alert-danger")
                 $("#alert-title").text("失败")
@@ -413,11 +391,12 @@
         $("#answer_run").click(function () {
             $(this).addClass("disabled")
             editor.save()
+            page_num = 0
             $.ajax({
                 type: "post",
                 url: "/user/execute",
                 data: $("#sql_code").serialize(),
-                success: function (data){
+                success: function (data) {
                     execute_success("", data)
                 },
                 failure: execute_failure,
@@ -476,9 +455,9 @@
 
 
         $("#colormode").click(function () {
-            var cur = $("html").attr("data-bs-theme");
-            var aft;
-            if (cur == "light") {
+            const cur = $("html").attr("data-bs-theme");
+            let aft;
+            if (cur === "light") {
                 aft = "dark"
             } else {
                 aft = "light"
@@ -488,35 +467,74 @@
 
         $(".common-table").click(function () {
             let table_name = $(this).text()
+            page_num = 0
             $.ajax({
                 type: "post",
                 url: "/user/find_table",
                 data: {'name': table_name},
-                success: function (data){
+                success: function (data) {
                     execute_success(table_name, data)
                 },
                 failure: execute_failure,
             })
         });
+
+        function select_page(page_num) {
+            const table_name = $("#result-table-name").text()
+            $.ajax({
+                type: "post",
+                url: "/user/select_page",
+                data: {
+                    page: page_num
+                },
+                success: function (data) {
+                    console.log(data)
+                    execute_success(table_name, data)
+                },
+                failure: execute_failure,
+            })
+        }
+
+        $("#select-page-f").click(function () {
+            page_num = 0
+            select_page(page_num)
+        })
+        $("#select-page-p").click(function () {
+            if (page_num > 0) page_num--
+            select_page(page_num)
+        })
+        $("#select-page-n").click(function () {
+            if (page_num < max_page) page_num++
+            select_page(page_num)
+        })
+        $("#select-page-l").click(function () {
+            page_num = max_page
+            select_page(page_num)
+        })
+        $("#search_table_button").click(function () {
+            const table = $("#search_table").val()
+            window.location.hash = "#list-" + table
+        })
     });
+    /*返回顶部*/
+    $(window).scroll(function () {
+        var sc = $(window).scrollTop();
+        var rwidth = $(window).width()
+        if (sc > 0) {
+            $("#goTopBtn").css("display", "block");
+            $("#goTopBtn").css("left", (rwidth - 36) + "px")
+        } else {
+            $("#goTopBtn").css("display", "none");
+        }
+    })
+    $("#goTopBtn").click(function () {
+        var sc = $(window).scrollTop();
+        $('body,html').animate({scrollTop: 0}, 500);
+    })
+
 </script>
-<script>
-/*返回顶部*/
-$(window).scroll(function(){
-   var sc=$(window).scrollTop();
-   var rwidth=$(window).width()
-   if(sc>0){
-    $("#goTopBtn").css("display","block");
-    $("#goTopBtn").css("left",(rwidth-36)+"px")
-   }else{
-   $("#goTopBtn").css("display","none");
-   }
- })
- $("#goTopBtn").click(function(){
-   var sc=$(window).scrollTop();
-   $('body,html').animate({scrollTop:0},500);
- })
-   </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
 </body>
 </html>
 

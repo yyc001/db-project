@@ -3,10 +3,10 @@ import re
 
 class Problem:
     def __init__(self, test_id, cursor):
-        cursor.execute("select test_name, test_desc from manage.test_table where test_id=%s", (test_id,))
+        cursor.execute("select test_name,test_desc,expected_time,score from manage.test_table where test_id=%s", (test_id,))
         result = cursor.fetchone()
         self.idx = test_id
-        self.title, self.description = result
+        self.title, self.description, self.expected_time, self.score = result
 
 
 class Submission:
@@ -16,11 +16,18 @@ class Submission:
             self.time = "N/A"
             self.message = ""
             self.status = "default"
+            self.score = 0
             pass
         else:
             result = cursor.fetchone()
             self.time, self.message = result
-            self.status = "success" if self.message == "success" else "danger"
+            if self.message == "success":
+                self.status = "success"
+                cursor.execute("select score from manage.test_table where test_id=%s", (test_id, ))
+                self.score = cursor.fetchone()[0]
+            else:
+                self.status = "danger"
+                self.score = 0
 
 
 class Table:
