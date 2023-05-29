@@ -57,9 +57,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarScroll">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form id="search_test_text" class="d-flex" role="form" action="/search_test" method="post">
+        <input id="search_test_input" class="form-control me-2" name="the_search_test" placeholder="题目,例如test0_0" >
+        <button id="search_test" class="btn btn-outline-success" type="button">Search</button>
       </form>
     </div>
       <button class="btn btn-primary" id="colormode">mode</button>
@@ -134,10 +134,10 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3 class="text-center">
-                        {{ problem.title|d("title") }}
+                        {{ problem.title|d("导航页") }}
                     </h3>
                     <p>
-                        {{ problem.description|d("description") }}
+                        {{ problem.description|d("从左边选择题目") }}
                     </p>
                 </div>
                 <div class="col-md-4">
@@ -163,6 +163,7 @@
                             <th>#</th>
                         </tr>
                         </thead>
+                        {% if submit %}
                         <tbody>
                         <tr class="table-{{ submit.status }}">
                             <td>{{ submit.time }}</td>
@@ -170,17 +171,20 @@
                             <td>{{ submit.message }}</td>
                         </tr>
                         </tbody>
+                        {% endif %}
                     </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    <div class="alert" id="alert">
+                    <div class="alert alert-info" id="alert">
                         <h4 id="alert-title"></h4>
-                        <p id="alert-content"></p>
+                        <p id="alert-content">学无止境 气有浩然</p>
+
                     </div>
                 </div>
             </div>
+            <br>
             <br>
             <div class="container-fluid">
                 <div class="row">
@@ -200,49 +204,48 @@
                         </form>
                     </div>
                     <div class="col-md-4">
-                        <label for="table_choice">Table: </label>
-                        <input id="table_choice" type="text">
-                        <button id="ssss" type="button" class="btn btn-success">
-                            确定
-                        </button>
-                        <div id="my_test"> 隐藏</div>
+                        <label>常用表查询: </label>
+                        <form class="d-flex" role="search">
+                            <input id="search_table" aria-label="Search" class="form-control me-2" placeholder="常用表,例如pub.sc" type="search">
+                            <button id="search_table_button" class="btn btn-outline-success" type="button">Search</button>
+                        </form>
                         <div class="row">
                             <div class="col-4">
                                 <div id="list-example" class="list-group scrollspy-example">
-                                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                                    <a class="list-group-item list-group-item-action active" href="#list-item-4">Item
-                                        4</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-5">Item 5</a>
-                                    <a class="list-group-item list-group-item-action" href="#list-item-6">Item 6</a>
+                                    {% for table in range(table_list.len) %}
+                                    {% if table == 0 %}
+                                    <a class="list-group-item list-group-item-action active"
+                                       href="#list-item-{{ table+1 }}">
+                                        {{ table_list.result[table][0] }}
+                                    </a>
+                                    {% else %}
+                                    <a class="list-group-item list-group-item-action" href="#list-item-{{ table+1 }}">
+                                        {{ table_list.result[table][0] }}
+                                    </a>
+                                    {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-8">
-                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-                                    <h4 id="list-item-1">Item 1</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-2">Item 2</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-3">Item 3</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-4">Item 4</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-5">Item 5</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-                                    <h4 id="list-item-6">Item 6</h4>
-                                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
-
+                                <div class="scrollspy-example" data-bs-offset="0" data-bs-spy="scroll"
+                                     data-bs-target="#list-example" tabindex="0">
+                                    {% for table in range(table_list.len) %}
+                                    <h4 id="list-item-{{ table+1 }}">{{ table+1 }}</h4>
+                                    <p> {{ table_list.result[table][1] }}</p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div class="row" >
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#yourtable" style="float:left">
-                        {{ table.name }} <span class="badge badge-light">number:{{ table.len }}</span>
-                    </button>
+                <button class="btn btn-primary" data-bs-target="#yourtable" data-bs-toggle="collapse" style="float:left"
+                        type="button">
+                    {{ table.name |d('None')}} <span class="badge badge-light">number:{{ table.len|d( 'None') }}</span>
+                </button>
                 </div>
             <div id="yourtable" class="row">
                     <table class="table table-hover table-bordered table-striped table-d ">
@@ -268,6 +271,7 @@
                             </tbody>
                         {% endfor %}
                     </table>
+                    {% if table %}
                     <div class="row" style="float: left">
                     <div class="col-md-12">
                         <nav>
@@ -297,6 +301,7 @@
                         </nav>
                     </div>
                 </div>
+                    {% endif %}
                 </div>
         </div>
     </div>
@@ -373,34 +378,40 @@
 
 <script>
     var availableTable = [
-       "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-        "C",
-        "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"
+        {% for table in table_list.result %}
+            `{{ table[0] }}`,
+        {% endfor %}
     ];
+
     $(document).ready(function () {
-        $("#table_choice").autocomplete({
+        $("#search_table").autocomplete({
             source: availableTable
         });
-
+        //search test
+        $("#search_test").click(function () {
+            // $(this).addClass("disabled")
+            // editor.save()
+            //console.log($("#search_test_text").serialize())
+           $.ajax({
+               type: "post",
+               url: "/search/test",
+               data: { "test_id":$("#search_test_text").serialize() },
+               success: function (data) {
+                   if(data.resp === 'success'){
+                       windows.location.href = data.url
+                       $("#alert").removeClass("alert-danger").addClass("alert-success")
+                        $("#alert-title").text(data.info)
+                   }else {
+                        $("#alert").removeClass("alert-success").addClass("alert-danger")
+                        $("#alert-title").text(data.info)
+                   }
+                   $("#search_test").removeClass("disabled")
+               },
+               failure: function () {
+                    $("#search_test").removeClass("disabled")
+               }
+           })
+        });
         //run
         $("#answer_run").click(function () {
             $(this).addClass("disabled")

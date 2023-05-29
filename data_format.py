@@ -38,7 +38,6 @@ class Table:
         self.result = result
         self.name = table_id
         self.len = len(result)
-        print(type(self.result))
 
 
 class ProblemList:
@@ -46,4 +45,12 @@ class ProblemList:
         cursor.execute("select test_id,set_id from manage.test_table where set_id!='-1' ")
         result = cursor.fetchall()
         self.result = result
+
+
+class TableList:
+    def __init__(self, cursor):
+        cursor.execute("select * from pub.table_set ")
+        result = cursor.fetchall()
+        self.result = result
+        self.len = len(result)
 

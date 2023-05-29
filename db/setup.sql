@@ -10,6 +10,17 @@ create table pub.sc (
 
 insert into pub.sc values ('123456789011', '098765432100', 90);
 
+create table pub.table_set(
+    table_id varchar(12) not null,
+    description text not null
+);
+
+insert into pub.table_set values ('pub.sc', '学生成绩的表1');
+insert into pub.table_set values ('pub.sc', '学生成绩的表2');
+insert into pub.table_set values ('pub.sc', '学生成绩的表3');
+insert into pub.table_set values ('pub.sc', '学生成绩的表4');
+insert into pub.table_set values ('pub.sc', '学生成绩的表5');
+insert into pub.table_set values ('pub.sc', '学生成绩的表6');
 
 drop user if exists 'student1';
 drop database if exists `student1`;
@@ -54,6 +65,8 @@ create table test_table(
     test_desc text not null,
     set_id varchar(12) not null
 );
+
+
 
 
 insert into test_table values ('start', '导航页', '从左边列表中选择题目', '-1');

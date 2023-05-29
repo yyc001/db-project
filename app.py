@@ -3,7 +3,7 @@ import datetime
 from flask import Flask, render_template, session, redirect, request, json
 from pymysql import MySQLError
 
-from data_format import Problem, Submission, Table, ProblemList
+from data_format import Problem, Submission, Table, ProblemList, TableList
 from sql_factory import SQLFactory
 
 app = Flask(__name__,
@@ -19,11 +19,10 @@ def index():
     if session.get("username") is not None:
         factory = SQLFactory()
         cursor = factory.get_root_cursor()
-        submit = Submission(session.get("username"), "test0_0", cursor)
-        table = Table("username", "pub.sc", cursor)
+        table_list = TableList(cursor)
         problem_list = ProblemList(cursor)
         path = {}
-        return render_template("index.html", problem=None, submit=submit, table=table, problem_list=problem_list, path=path)
+        return render_template("index.html", problem=None, submit=None, table=None, problem_list=problem_list, table_list=table_list, path=path)
     return redirect('/login')
 
 
@@ -125,6 +124,37 @@ def verify():
         factory.closeAll()
 
 
+@app.route('/search/test', methods=["POST"])
+def search_t():
+
+    ask = request.form.get("the_search_test", "")
+    factory = SQLFactory()
+    try:
+        cursor = factory.get_user_cursor()
+        answer = cursor.execute("select test_id, set_id from manage.test_table where test_id=%s", (ask,))
+        if answer:
+            return {
+                "resp": "success",
+                "url": "/question/{}/{}".format(answer[0][1], answer[0][0]),
+                "info": "成功搜索到题目{}".format(ask),
+            }
+        else:
+            return {
+                "resp": "failure",
+                "url": "",
+                "info": "失败搜索到题目{}".format(ask),
+            }
+    except MySQLError as e:
+        errno, errmsg = e.args
+        return {
+            "resp": "failure",
+            "url": "",
+            "info": "失败搜索到题目{}".format(ask),
+        }
+    finally:
+        factory.closeAll()
+
+
 def check_same_table(user_db, test, cursor):
     cursor.execute(f"select * from answer.{test}")
     std_rownum = cursor.rowcount
@@ -177,9 +207,10 @@ def test(set_id, test_id):
         problem = Problem(test_id, cursor)
         submit = Submission(session.get("username"), test_id, cursor)
         table = Table("username", "pub.sc", cursor)
+        table_list = TableList(cursor)
         path = {"set": set_id, "test": test_id}
         problem_list = ProblemList(cursor)
-        return render_template("index.html", problem=problem, problem_list=problem_list, submit=submit, table=table, path=path)
+        return render_template("index.html", problem=problem, problem_list=problem_list, table_list=table_list, submit=submit, table=table, path=path)
     return redirect('/login')
 
 
