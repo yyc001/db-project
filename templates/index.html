@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -281,9 +281,11 @@
                 </div>
                     {% endif %}
                 </div>
+            <div id="vcomments"></div>
         </div>
     </div>
 </div>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 <script src="/jui/jquery-3.7.0.min.js"></script>
 <script src="/jui/jquery-ui.js"></script>
 <script src="/codemirror-5.65.12/lib/codemirror.js"></script>
@@ -310,7 +312,13 @@
 <!--滚动条-->
 <script src="/codemirror-5.65.12/addon/scroll/simplescrollbars.js"></script>
 
-
+<script>
+        new Valine({
+            el: '#vcomments',
+            appId: 'vOfMCZfwKKAvgO1LzoVVYEv1-gzGzoHsz',
+            appKey: 'IJ3Of3KSmaIS9Oe7dMeLIZp9'
+        })
+    </script>
 <script>
     var editor=CodeMirror.fromTextArea(document.getElementById("code"),{
         mode:"text/x-mysql",
