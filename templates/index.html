@@ -57,7 +57,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarScroll">
-      <form id="search_test_text" class="d-flex" role="form" action="/search_test" method="post">
+      <form id="search_test_text" class="d-flex" role="form" onsubmit="return false">
         <input id="search_test_input" class="form-control me-2" name="the_search_test" placeholder="题目,例如test0_0" >
         <button id="search_test" class="btn btn-outline-success" type="button">Search</button>
       </form>
@@ -213,8 +213,13 @@
                             <div class="col-4">
                                 <div id="list-example" class="list-group scrollspy-example">
                                     {% for table_name in table_list.tables %}
+                                        {% if table_name == table_list.tables[0] %}
+                                        <a class="list-group-item list-group-item-action active"
+                                           href="#list-{{ table_name }}">{{ table_name }}</a>
+                                        {% else %}
                                         <a class="list-group-item list-group-item-action"
                                            href="#list-{{ table_name }}">{{ table_name }}</a>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -374,7 +379,7 @@
 <script>
     var availableTable = [
         {% for table in table_list.result %}
-            `{{ table[0] }}`,
+            "{{ table[0] }}",
         {% endfor %}
     ];
 
@@ -384,16 +389,13 @@
         });
         //search test
         $("#search_test").click(function () {
-            // $(this).addClass("disabled")
-            // editor.save()
-            //console.log($("#search_test_text").serialize())
            $.ajax({
                type: "post",
                url: "/search/test",
-               data: { "test_id":$("#search_test_text").serialize() },
+               data: $("#search_test_text").serialize(),
                success: function (data) {
                    if(data.resp === 'success'){
-                       windows.location.href = data.url
+                       window.location.href = data.url
                        $("#alert").removeClass("alert-danger").addClass("alert-success")
                         $("#alert-title").text(data.info)
                    }else {

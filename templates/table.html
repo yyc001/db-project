@@ -1,0 +1,62 @@
+<div class="row">
+    <button class="btn btn-primary" data-bs-target="#yourtable" data-bs-toggle="collapse" style="float:left"
+            type="button">
+        {{ table.name |d('None') }} <span class="badge badge-light">number:{{ table.len|d( 'None') }}</span>
+    </button>
+</div>
+<div id="yourtable" class="row">
+    <table class="table table-hover table-bordered table-striped table-d ">
+        <thead>
+        <tr>
+            {% for attr in table.description %}
+                <td>
+                    {{ attr }}
+                </td>
+            {% endfor %}
+        </tr>
+        </thead>
+
+        {% for item in table.result %}
+            <tbody>
+            <tr>
+                {% for attr in item %}
+                    <td>
+                        {{ attr }}
+                    </td>
+                {% endfor %}
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+    {% if table %}
+        <div class="row" style="float: left">
+            <div class="col-md-12">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#">Previous</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">4</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">5</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    {% endif %}
+</div>

@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, render_template, session, redirect, request, json
+from flask import Flask, render_template, session, redirect, request
 from pymysql import MySQLError
 
 from data_format import Problem, Submission, Table, ProblemList, TableList
@@ -125,16 +125,17 @@ def verify():
 
 @app.route('/search/test', methods=["POST"])
 def search_t():
-
     ask = request.form.get("the_search_test", "")
     factory = SQLFactory()
+
     try:
-        cursor = factory.get_user_cursor()
-        answer = cursor.execute("select test_id, set_id from manage.test_table where test_id=%s", (ask,))
+        cursor = factory.get_root_cursor()
+        answer = cursor.execute("select set_id,test_id from manage.test_table where test_id=%s", (ask,))
         if answer:
+            result = cursor.fetchone()
             return {
                 "resp": "success",
-                "url": "/question/{}/{}".format(answer[0][1], answer[0][0]),
+                "url": "/question/{}/{}".format(result[0], result[1]),
                 "info": "成功搜索到题目{}".format(ask),
             }
         else:
