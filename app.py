@@ -14,6 +14,12 @@ app = Flask(__name__,
 app.config['SECRET_KEY'] = '\x0fW\xdc\x13\xeel(\xe9\xb5\xbaa\xa4\xc0\xb5\xaaK^\xd1Y\x81)#\x92T'
 app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
 
+@app.route('/homepage')
+def homepage():
+    return render_template("homepage.html")
+
+
+
 
 @app.route('/')
 def index():
