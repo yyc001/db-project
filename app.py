@@ -223,5 +223,10 @@ def test(set_id, test_id):
     return redirect('/login')
 
 
+@app.route('/profile')
+def profile():
+    return render_template("profile.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
