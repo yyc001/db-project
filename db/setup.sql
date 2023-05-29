@@ -10,6 +10,14 @@ create table pub.sc (
 
 insert into pub.sc values ('123456789011', '098765432100', 90);
 
+create table pub.student (
+    sid varchar(12) not null,
+    name varchar(12) not null,
+    major varchar(12)
+);
+
+insert into pub.student values ('123456789011', 'gjc', 'CS');
+
 drop user if exists 'student1';
 drop database if exists `student1`;
 create user 'student1'@'%' identified by '123456';

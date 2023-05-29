@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from flask import Flask, render_template, session, redirect, request
 from pymysql import MySQLError
@@ -49,10 +50,10 @@ def login_action():
 def run_sql():
     if 'username' not in session:
         return {
-            "result": "failure",
-            "errno": -1,
-            "errmsg": "Access denied",
-        }, 401
+                   "result": "failure",
+                   "errno": -1,
+                   "errmsg": "Access denied",
+               }, 401
 
     query = request.form.get("sql", "")
     page_size = request.form.get("page-size", "")
@@ -62,10 +63,10 @@ def run_sql():
     if not factory.user_login(session['username'], session['password']):
         factory.closeAll()
         return {
-            "result": "failure",
-            "errno": -2,
-            "errmsg": "Password changed",
-        }, 401
+                   "result": "failure",
+                   "errno": -2,
+                   "errmsg": "Password changed",
+               }, 401
 
     try:
         cursor = factory.get_user_cursor()
@@ -91,10 +92,10 @@ def run_sql():
 def verify():
     if 'username' not in session:
         return {
-            "result": "failure",
-            "errno": -1,
-            "errmsg": "Access denied",
-        }, 401
+                   "result": "failure",
+                   "errno": -1,
+                   "errmsg": "Access denied",
+               }, 401
     test = request.form.get("test", "test0_0")
     username = session.get("username")
     factory = SQLFactory()
@@ -226,6 +227,49 @@ def test(set_id, test_id):
 @app.route('/profile')
 def profile():
     return render_template("profile.html")
+
+
+@app.route('/user/find_table', methods=["POST"])
+def find_table():
+    if 'username' not in session:
+        return {
+                   "result": "failure",
+                   "errno": -1,
+                   "errmsg": "Access denied",
+               }, 401
+    regex = re.compile(r"^[a-zA-Z_.]+$")
+    name = request.form.get('name')
+    name = regex.match(name).group()
+    page_size = request.form.get("page-size", "")
+    page_size = int(page_size) if page_size.isdigit() else 15
+
+    factory = SQLFactory()
+    if not factory.user_login(session['username'], session['password']):
+        factory.closeAll()
+        return {
+                   "result": "failure",
+                   "errno": -2,
+                   "errmsg": "Password changed",
+               }, 401
+
+    try:
+        cursor = factory.get_user_cursor()
+        rowcount = cursor.execute("select * from " + name)
+        return {
+            "result": "success",
+            "rowcount": rowcount,
+            "data": cursor.fetchmany(min(rowcount, page_size)),
+            "description": cursor.description,
+        }
+    except MySQLError as e:
+        errno, errmsg = e.args
+        return {
+            "result": "failure",
+            "errno": errno,
+            "errmsg": errmsg,
+        }
+    finally:
+        factory.closeAll()
 
 
 if __name__ == '__main__':

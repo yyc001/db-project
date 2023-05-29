@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -213,10 +213,10 @@
                                 <div id="list-example" class="list-group scrollspy-example">
                                     {% for table_name in table_list.tables %}
                                         {% if table_name == table_list.tables[0] %}
-                                        <a class="list-group-item list-group-item-action active"
+                                        <a class="list-group-item list-group-item-action active common-table"
                                            href="#list-{{ table_name }}">{{ table_name }}</a>
                                         {% else %}
-                                        <a class="list-group-item list-group-item-action"
+                                        <a class="list-group-item list-group-item-action common-table"
                                            href="#list-{{ table_name }}">{{ table_name }}</a>
                                         {% endif %}
                                     {% endfor %}
@@ -240,36 +240,16 @@
             </div>
             <br>
             <br>
-            <div class="row" >
+            <div class="row">
                 <button class="btn btn-primary" data-bs-target="#yourtable" data-bs-toggle="collapse" style="float:left"
                         type="button">
-                    {{ table.name |d('None')}} <span class="badge badge-light">number:{{ table.len|d( 'None') }}</span>
+                    <span id="result-table-name">{{ table.name |d('None') }}</span> <span id="result-table-size"
+                                                                                          class="badge badge-light">size:{{ table.len|d( 'None') }}</span>
                 </button>
-                </div>
+            </div>
             <div id="yourtable" class="row">
-                    <table class="table table-hover table-bordered table-striped table-d ">
-                        <thead>
-                            <tr>
-                                {% for attr in table.description %}
-                                    <td>
-                                        {{ attr }}
-                                    </td>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-
-                        {% for item in table.result %}
-                            <tbody>
-                                <tr>
-                                    {% for attr in item %}
-                                    <td>
-                                        {{ attr }}
-                                    </td>
-                                    {% endfor %}
-                                </tr>
-                            </tbody>
-                        {% endfor %}
-                    </table>
+                <table id="result-table" class="table table-hover table-bordered table-striped table-d ">
+                </table>
                     {% if table %}
                     <div class="row" style="float: left">
                     <div class="col-md-12">
@@ -397,7 +377,7 @@
                        window.location.href = data.url
                        $("#alert").removeClass("alert-danger").addClass("alert-success")
                         $("#alert-title").text(data.info)
-                   }else {
+                    } else {
                         $("#alert").removeClass("alert-success").addClass("alert-danger")
                         $("#alert-title").text(data.info)
                    }
@@ -408,6 +388,43 @@
                }
            })
         });
+
+        function execute_success(table_name, data) {
+            if (data.result === 'success') {
+                $("#alert").removeClass("alert-danger").addClass("alert-success")
+                $("#alert-title").text("成功")
+                $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
+                let html = "<thead><tr>"
+                for (const row in data.description) {
+                    html += "<td>" + data.description[row][0] + "</td>"
+                }
+                html += "</tr></thead><tbody>"
+                for (const row in data.data) {
+                    html += "<tr>"
+                    for (const item in data.data[row]) {
+                        html += "<td>" + data.data[row][item] + "</td>"
+                    }
+                    html += "</tr>"
+                }
+                html += "</tbody>"
+                $("#result-table").html(html)
+                $("#result-table-name").text(table_name)
+                $("#result-table-size").text("size:" + data.rowcount)
+            } else {
+                $("#alert").removeClass("alert-success").addClass("alert-danger")
+                $("#alert-title").text("失败")
+                $("#alert-content").text("[" + data.errno + "]" + data.errmsg)
+            }
+            $("#answer_run").removeClass("disabled")
+        }
+
+        function execute_failure() {
+            $("#alert").removeClass("alert-success").addClass("alert-danger")
+            $("#alert-title").text("失败")
+            $("#alert-content").text("请求失败")
+            $("#answer_run").removeClass("disabled")
+        }
+
         //run
         $("#answer_run").click(function () {
             $(this).addClass("disabled")
@@ -416,26 +433,10 @@
                 type: "post",
                 url: "/user/execute",
                 data: $("#sql_code").serialize(),
-                success: function (data) {
-                    console.log(data)
-                    if (data.result === 'success') {
-                        $("#alert").removeClass("alert-danger").addClass("alert-success")
-                        $("#alert-title").text("成功")
-                        $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
-
-                    } else {
-                        $("#alert").removeClass("alert-success").addClass("alert-danger")
-                        $("#alert-title").text("失败")
-                        $("#alert-content").text("[" + data.errno + "]" + data.errmsg)
-                    }
-                    $("#answer_run").removeClass("disabled")
+                success: function (data){
+                    execute_success("", data)
                 },
-                failure: function () {
-                    $("#alert").removeClass("alert-success").addClass("alert-danger")
-                    $("#alert-title").text("失败")
-                    $("#alert-content").text("请求失败")
-                    $("#answer_run").removeClass("disabled")
-                }
+                failure: execute_failure,
             })
         });
         //submit
@@ -482,25 +483,38 @@
             },
         }).sortable({
             items: "li:not(.placeholder)",
-      sort: function() {
-        // 获取由 droppable 与 sortable 交互而加入的条目
-        // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
-        $( this ).removeClass( "ui-state-default" );
-      }
+            sort: function () {
+                // 获取由 droppable 与 sortable 交互而加入的条目
+                // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
+                $(this).removeClass("ui-state-default");
+            }
+        });
+
+
+        $("#colormode").click(function () {
+            var cur = $("html").attr("data-bs-theme");
+            var aft;
+            if (cur == "light") {
+                aft = "dark"
+            } else {
+                aft = "light"
+            }
+            $("html").attr('data-bs-theme', aft);
+        });
+
+        $(".common-table").click(function () {
+            let table_name = $(this).text()
+            $.ajax({
+                type: "post",
+                url: "/user/find_table",
+                data: {'name': table_name},
+                success: function (data){
+                    execute_success(table_name, data)
+                },
+                failure: execute_failure,
+            })
+        });
     });
-
-
-    $("#colormode").click(function () {
-        var cur = $("html").attr("data-bs-theme");
-        var aft;
-        if(cur=="light"){
-            aft="dark"
-        }else{
-            aft="light"
-        }
-        $("html").attr('data-bs-theme', aft);
-    })
-  });
 </script>
 </body>
 </html>
