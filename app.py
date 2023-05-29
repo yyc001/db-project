@@ -123,6 +123,37 @@ def verify():
         factory.closeAll()
 
 
+@app.route('/search/test', methods=["POST"])
+def search_t():
+
+    ask = request.form.get("the_search_test", "")
+    factory = SQLFactory()
+    try:
+        cursor = factory.get_user_cursor()
+        answer = cursor.execute("select test_id, set_id from manage.test_table where test_id=%s", (ask,))
+        if answer:
+            return {
+                "resp": "success",
+                "url": "/question/{}/{}".format(answer[0][1], answer[0][0]),
+                "info": "成功搜索到题目{}".format(ask),
+            }
+        else:
+            return {
+                "resp": "failure",
+                "url": "",
+                "info": "失败搜索到题目{}".format(ask),
+            }
+    except MySQLError as e:
+        errno, errmsg = e.args
+        return {
+            "resp": "failure",
+            "url": "",
+            "info": "失败搜索到题目{}".format(ask),
+        }
+    finally:
+        factory.closeAll()
+
+
 def check_same_table(user_db, test, cursor):
     cursor.execute(f"select * from answer.{test}")
     std_rownum = cursor.rowcount

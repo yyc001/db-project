@@ -38,7 +38,6 @@ class Table:
         self.result = result
         self.name = table_id
         self.len = len(result)
-        print(type(self.result))
 
 
 class ProblemList:
