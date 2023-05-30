@@ -79,9 +79,13 @@
 <div class="container-fluid" >
     <div class="row">
         <div class="col-md-2">
+        我的分数： {{ my_total_score }} / {{ problem_list.total_score }}
             <div class="progress">
-                <div class="progress-bar" style="width: {{ total_progress_percentage|d(75) }}%"></div>
+
+                <div class="progress-bar" style="width: {{ 100*my_total_score/problem_list.total_score|d(75) }}%"></div>
+
             </div>
+         <br>
             <div id="card-216938">
                 <div class="card">
                     <div class="card-header">
@@ -310,10 +314,10 @@
                success: function (data) {
                    if(data.resp === 'success'){
                        window.location.href = data.url
-                       $("#alert").removeClass("alert-danger").addClass("alert-success")
+                       $("#alert").removeClass("alert-danger").removeClass("alert-info").addClass("alert-success")
                         $("#alert-title").text(data.info)
                     } else {
-                       $("#alert").removeClass("alert-success").addClass("alert-danger")
+                       $("#alert").removeClass("alert-success").removeClass("alert-info").addClass("alert-danger")
                        $("#alert-title").text(data.info)
                    }
                    $("#search_test").removeClass("disabled")
@@ -328,7 +332,7 @@
 
         function execute_success(table_name, data) {
             if (data.result === 'success') {
-                $("#alert").removeClass("alert-danger").addClass("alert-success")
+                $("#alert").removeClass("alert-danger").removeClass("alert-info").addClass("alert-success")
                 $("#alert-title").text("成功")
                 $("#alert-content").text("执行成功，返回" + data.rowcount + "行数据")
                 let html = "<thead><tr>"
@@ -349,7 +353,7 @@
                 $("#result-table-size").text("size:" + data.rowcount)
                 max_page = Math.floor((data.rowcount - 1) / 15)
             } else {
-                $("#alert").removeClass("alert-success").addClass("alert-danger")
+                $("#alert").removeClass("alert-success").removeClass("alert-info").addClass("alert-danger")
                 $("#alert-title").text("失败")
                 $("#alert-content").text("[" + data.errno + "]" + data.errmsg)
             }
@@ -357,7 +361,7 @@
         }
 
         function execute_failure() {
-            $("#alert").removeClass("alert-success").addClass("alert-danger")
+            $("#alert").removeClass("alert-success").removeClass("alert-info").addClass("alert-danger")
             $("#alert-title").text("失败")
             $("#alert-content").text("请求失败")
             $("#answer_run").removeClass("disabled")
@@ -393,6 +397,7 @@
                         $("#alert").removeClass("alert-danger").addClass("alert-success")
                         $("#alert-title").text("成功")
                         $("#alert-content").text("提交成功")
+                        window.location.reload();
                     } else {
                         $("#alert").removeClass("alert-success").addClass("alert-danger")
                         $("#alert-title").text("失败")

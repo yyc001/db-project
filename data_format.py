@@ -49,9 +49,11 @@ class Table:
 
 class ProblemList:
     def __init__(self, cursor):
-        cursor.execute("select test_id,set_id from manage.test_table where set_id!='-1' ")
+        cursor.execute("select test_id,set_id from manage.test_table")
         result = cursor.fetchall()
         self.result = result
+        cursor.execute("select sum(score) from manage.test_table")
+        self.total_score = cursor.fetchone()[0]
 
 
 class TableList:

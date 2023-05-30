@@ -114,8 +114,7 @@ create table saved_query(
 );
 
 create view student_score as
-    select sid, sum(score) total_score
-    from record
-    join test_table tt on record.test_id = tt.test_id
-    where result='success'
+    select sid, COALESCE(sum(score), 0) total_score
+    from record join test_table tt on record.test_id = tt.test_id
+    where result = 'success'
     group by sid;

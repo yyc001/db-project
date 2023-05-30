@@ -169,7 +169,7 @@ def check_same_table(user_db, test, cursor):
     cursor.execute(f"select * from {user_db}.{test}")
     user_rownum = cursor.rowcount
     user_description = cursor.description
-    user_description = set([desc[0] for desc in user_description ])
+    user_description = set([desc[0] for desc in user_description])
 
     leak = std_description - user_description
     more = user_description - std_description
@@ -208,12 +208,17 @@ def test(factory, set_id, test_id):
     problem_list = ProblemList(cursor)
     user_cursor = factory.get_user_cursor()
     table_list = TableList(user_cursor)
+    cursor.execute("select COALESCE(sum(score), 0)\
+                                    from manage.record join manage.test_table tt on record.test_id = tt.test_id\
+                                    where result = 'success' and sid=%s", (session['username'], ))
+    my_total_score = cursor.fetchone()[0]
     return render_template("index.html",
                            problem=problem,
                            problem_list=problem_list,
                            submit=submit,
                            path=path,
                            table_list=table_list,
+                           my_total_score=my_total_score,
                            )
 
 
@@ -236,11 +241,11 @@ def user_run_query(factory, query, page_size=15, page_num=0):
         cursor = factory.get_user_cursor()
         rowcount = cursor.execute(query)
         cursor.scroll(page_size * page_num)
-
-        root_cursor = factory.get_root_cursor()
-        if root_cursor.execute("select 1 from manage.saved_query where sid=%s", (session['username'],)) > 0:
-            root_cursor.execute("delete from manage.saved_query where sid=%s", (session['username'],))
-        root_cursor.execute("insert into manage.saved_query values (%s,%s)", (session['username'], query))
+        if rowcount:
+            root_cursor = factory.get_root_cursor()
+            if root_cursor.execute("select 1 from manage.saved_query where sid=%s", (session['username'],)) > 0:
+                root_cursor.execute("delete from manage.saved_query where sid=%s", (session['username'],))
+            root_cursor.execute("insert into manage.saved_query values (%s,%s)", (session['username'], query))
 
         return {
             "result": "success",
