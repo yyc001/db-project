@@ -1,43 +1,281 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/jui/jquery-ui.min.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/utilities.css">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/homepage/w3.css">
+<link rel="stylesheet" href="/homepage/css.css">
+<link rel="stylesheet" href="/homepage/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/background.jpeg");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+</style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top opacity-25">
-    <div class="container-fluid">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database"
-             viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M4.318 2.687C3.356 3.125 3 3.627 3 4c0 .374.356.875 1.318 1.313C5.234 5.729 6.536 6 8 6s2.766-.27 3.682-.687C12.644 4.875 13 4.373 13 4c0-.374-.356-.875-1.318-1.313C10.766 2.271 9.464 2 8 2s-2.766.27-3.682.687ZM13 5.698a4.92 4.92 0 0 1-.904.525C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 5.698V7c0 .374.356.875 1.318 1.313C5.234 8.729 6.536 9 8 9s2.766-.27 3.682-.687C12.644 7.875 13 7.373 13 7V5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698a4.92 4.92 0 0 1-.904.525C11.022 9.71 9.573 10 8 10s-3.022-.289-4.096-.777A4.92 4.92 0 0 1 3 8.698V10c0 .374.356.875 1.318 1.313C5.234 11.729 6.536 12 8 12s2.766-.27 3.682-.687C12.644 10.875 13 10.373 13 10V8.698Zm0 3c-.271.202-.58.378-.904.525C11.022 12.71 9.573 13 8 13s-3.022-.289-4.096-.777A4.916 4.916 0 0 1 3 11.698V13c0 .374.356.875 1.318 1.313C5.234 14.729 6.536 15 8 15s2.766-.27 3.682-.687C12.644 13.875 13 13.373 13 13v-1.302Z"/>
-        </svg>
-        <a class="navbar-brand" href="#">数据库实验</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-        </div>
 
-        <div class="nav navbar-right">
-            <a href="/login">
-                <button class="btn btn-primary" id="colormode">LOGIN</button>
-            </a>
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="#home" class="w3-bar-item w3-button w3-wide">数据库OJ</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="/homepage" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="#team" class="w3-bar-item w3-button"><i class="fa "></i> TEAM</a>
+      <a href="#work" class="w3-bar-item w3-button"><i class="fa "></i> WORK</a>
+      <a href="/login" class="w3-bar-item w3-button"><i class="fa "></i> LOGIN</a>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-text-white" style="padding:48px">
+    <span class="w3-jumbo w3-hide-small">开始进入SQL的世界吧</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium">开始吧</span><br>
+    <span class="w3-large">不要浪费时间了 </span>
+    <p><a href="/" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">了解更多并开始</a></p>
+  </div>
+
+</header>
+
+<!-- About Section -->
+<div class="w3-container" style="padding:128px 16px" id="about">
+  <h3 class="w3-center">关于我们的数据库OJ</h3>
+  <p class="w3-center w3-large">学无止境,气有浩然</p>
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    <div class="w3-quarter">
+      <i class="fa  w3-margin-bottom w3-jumbo w3-center"></i>
+      <p class="w3-large">Responsive</p>
+      <p>使用HTML+CSS+JS</p>
+    </div>
+    <div class="w3-quarter">
+      <i class="fa  w3-margin-bottom w3-jumbo"></i>
+      <p class="w3-large">Passion</p>
+      <p>我们认真工作</p>
+    </div>
+    <div class="w3-quarter">
+      <i class="fa  w3-margin-bottom w3-jumbo"></i>
+      <p class="w3-large">Design</p>
+      <p>加入独特设计</p>
+    </div>
+    <div class="w3-quarter">
+      <i class="fa  w3-margin-bottom w3-jumbo"></i>
+      <p class="w3-large">Support</p>
+      <p>支持售后</p>
+    </div>
+  </div>
+</div>
+
+<!-- Promo Section - "We know design" -->
+<div class="w3-container w3-light-grey" style="padding:128px 16px">
+  <div class="w3-row-padding">
+    <div class="w3-col m6">
+      <h3>An overview</h3>
+      <p>基本的界面情况</p>
+      <p><a href="#work" class="w3-button w3-black"><i class="fa "></i> 我们的工作</a></p>
+    </div>
+    <div class="w3-col m6">
+      <img class="w3-image w3-round-large" src="/background.jpeg" alt="Buildings" width="700" height="394">
+    </div>
+  </div>
+</div>
+
+<!-- Team Section -->
+<div class="w3-container" style="padding:128px 16px" id="team">
+  <h3 class="w3-center">我们的团队</h3>
+  <p class="w3-center w3-large">努力工作</p>
+  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+    <div class="w3-col l4 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="/background.jpeg" alt="yyc" style="width:100%">
+        <div class="w3-container">
+          <h3>YYC</h3>
+          <p class="w3-opacity">xxx</p>
+          <p>你好,世界</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa "></i> Contact</button></p>
         </div>
+      </div>
+    </div>
+    <div class="w3-col l4 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="/background.jpeg" alt="gjc" style="width:100%">
+        <div class="w3-container">
+          <h3>GJC</h3>
+          <p class="w3-opacity">xxx</p>
+          <p>你好,世界</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa "></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l4 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="/background.jpeg" alt="cz" style="width:100%">
+        <div class="w3-container">
+          <h3>CZ</h3>
+          <p class="w3-opacity">xxx</p>
+          <p>你好,世界</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa "></i> Contact</button></p>
+        </div>
+      </div>
     </div>
 
-</nav>
-<div class="container-fluid" style="padding:0">
-    <img src="/backg.jpeg" class="img-fluid" alt="HUTAO" style="width: 100%">
-    <div class="vcenter" id="ppp"></div>
+  </div>
 </div>
-<div class="container-fluid">
-    <span style="font-size: 50px;margin-left:auto;margin-right:auto;background:red"> 一个数据库OJ系统 的描述</span>
+
+<!-- Promo Section "Statistics" -->
+<div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
+    <h3 class="w3-center">花费时间</h3>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">55+</span>
+    <br>Days
+  </div>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">1320+</span>
+    <br>Hours
+  </div>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">79200+</span>
+    <br>Minutes
+  </div>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">4,752,000+</span>
+    <br>Seconds
+  </div>
 </div>
+
+<!-- Work Section -->
+<div class="w3-container" style="padding:128px 16px" id="work">
+  <h3 class="w3-center">我们的工作</h3>
+  <p class="w3-center w3-large">我们OJ的设计</p>
+
+  <div class="w3-row-padding" style="margin-top:64px">
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+  </div>
+
+  <div class="w3-row-padding w3-section">
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+    <div class="w3-col l3 m6">
+      <p>1</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+<!-- Skills Section -->
+<div class="w3-container w3-light-grey w3-padding-64">
+  <div class="w3-row-padding">
+    <div class="w3-col m6">
+      <h3>我们的OJ</h3>
+      <p>代码统计</p>
+    </div>
+    <div class="w3-col m6">
+      <p class="w3-wide"><i class="fa  w3-margin-right"></i>Javascript</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-dark-grey w3-center" style="width:69.2%">69.2%</div>
+      </div>
+      <p class="w3-wide"><i class="fa  w3-margin-right"></i>HTML</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-dark-grey w3-center" style="width:26.5%">26.5%</div>
+      </div>
+      <p class="w3-wide"><i class="fa  w3-margin-right"></i>CSS</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-dark-grey w3-center" style="width:4.0%">4.0%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <a href="#home" class="w3-button w3-light-grey">To the top</a>
+
+</footer>
+
+<script>
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+
+// Toggle between showing and hiding the sidebar when clicking the menu icon
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
+</script>
+
+</body>
+</html>
 
 <script>
     var test = document.querySelector('#ppp');
