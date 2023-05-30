@@ -21,6 +21,40 @@ def homepage():
 
 
 
+def require_login(func):
+    def wrapper(*args, **kwargs):
+        if 'username' not in session:
+            return {
+                       "result": "failure",
+                       "errno": -1,
+                       "errmsg": "Access denied",
+                   }, 401
+        factory = SQLFactory()
+        if factory.user_login(session['username'], session['password']):
+            return func(factory, *args, **kwargs)
+        else:
+            return {
+                       "result": "failure",
+                       "errno": -2,
+                       "errmsg": "Password changed",
+                   }, 401
+
+    return wrapper
+
+
+def jump_if_not_logged_in(func):
+    def inner(*args, **kwargs):
+        if 'username' not in session:
+            return redirect("/login")
+        factory = SQLFactory()
+        if factory.user_login(session['username'], session['password']):
+            return func(factory, *args, **kwargs)
+        else:
+            return redirect("/logout")
+
+    return inner
+
+
 @app.route('/')
 def index():
     if session.get("username") is not None:
@@ -52,59 +86,18 @@ def login_action():
         return redirect("/login?failed=true")
 
 
-@app.route('/user/execute', methods=["POST"])
-def run_sql():
-    if 'username' not in session:
-        return {
-                   "result": "failure",
-                   "errno": -1,
-                   "errmsg": "Access denied",
-               }, 401
-
+@app.route('/user/execute', methods=["POST"], endpoint="run_sql")
+@require_login
+def run_sql(factory):
     query = request.form.get("sql", "")
-    page_size = request.form.get("page-size", "")
-    page_size = int(page_size) if page_size.isdigit() else 15
-
-    factory = SQLFactory()
-    if not factory.user_login(session['username'], session['password']):
-        factory.closeAll()
-        return {
-                   "result": "failure",
-                   "errno": -2,
-                   "errmsg": "Password changed",
-               }, 401
-
-    try:
-        cursor = factory.get_user_cursor()
-        rowcount = cursor.execute(query)
-        return {
-            "result": "success",
-            "rowcount": rowcount,
-            "data": cursor.fetchmany(min(rowcount, page_size)),
-            "description": cursor.description,
-        }
-    except MySQLError as e:
-        errno, errmsg = e.args
-        return {
-            "result": "failure",
-            "errno": errno,
-            "errmsg": errmsg,
-        }
-    finally:
-        factory.closeAll()
+    return user_run_query(factory, query)
 
 
-@app.route('/user/verify', methods=["POST"])
-def verify():
-    if 'username' not in session:
-        return {
-                   "result": "failure",
-                   "errno": -1,
-                   "errmsg": "Access denied",
-               }, 401
+@app.route('/user/verify', methods=["POST"], endpoint="verify")
+@require_login
+def verify(factory):
     test = request.form.get("test", "test0_0")
     username = session.get("username")
-    factory = SQLFactory()
     try:
         cursor = factory.get_root_cursor()
         message = check_same_table(username, test, cursor)
@@ -130,10 +123,10 @@ def verify():
         factory.closeAll()
 
 
-@app.route('/search/test', methods=["POST"])
-def search_t():
+@app.route('/search/test', methods=["POST"], endpoint="search_t")
+@require_login
+def search_t(factory):
     ask = request.form.get("the_search_test", "")
-    factory = SQLFactory()
 
     try:
         cursor = factory.get_root_cursor()
@@ -156,7 +149,7 @@ def search_t():
         return {
             "resp": "failure",
             "url": "",
-            "info": "失败搜索到题目{}".format(ask),
+            "info": errmsg,
         }
     finally:
         factory.closeAll()
@@ -206,28 +199,23 @@ def logout():
     return redirect('/')
 
 
-@app.route('/question/<set_id>/<test_id>')
-def test(set_id, test_id):
-    if session.get("username") is not None:
-        factory = SQLFactory()
-        cursor = factory.get_root_cursor()
-        problem = Problem(test_id, cursor)
-        submit = Submission(session.get("username"), test_id, cursor)
-        table = Table("username", "pub.sc", cursor)
-        path = {"set": set_id, "test": test_id}
-        problem_list = ProblemList(cursor)
-        factory.user_login(session['username'], session['password'])
-        user_cursor = factory.get_user_cursor()
-        table_list = TableList(user_cursor)
-        return render_template("index.html",
-                               problem=problem,
-                               problem_list=problem_list,
-                               submit=submit,
-                               table=table,
-                               path=path,
-                               table_list=table_list,
-                               )
-    return redirect('/login')
+@app.route('/question/<set_id>/<test_id>', endpoint="test")
+@jump_if_not_logged_in
+def test(factory, set_id, test_id):
+    cursor = factory.get_root_cursor()
+    problem = Problem(test_id, cursor)
+    submit = Submission(session.get("username"), test_id, cursor)
+    path = {"set": set_id, "test": test_id}
+    problem_list = ProblemList(cursor)
+    user_cursor = factory.get_user_cursor()
+    table_list = TableList(user_cursor)
+    return render_template("index.html",
+                           problem=problem,
+                           problem_list=problem_list,
+                           submit=submit,
+                           path=path,
+                           table_list=table_list,
+                           )
 
 
 @app.route('/profile')
@@ -235,36 +223,30 @@ def profile():
     return render_template("profile.html")
 
 
-@app.route('/user/find_table', methods=["POST"])
-def find_table():
-    if 'username' not in session:
-        return {
-                   "result": "failure",
-                   "errno": -1,
-                   "errmsg": "Access denied",
-               }, 401
-    regex = re.compile(r"^[a-zA-Z_.]+$")
+@app.route('/user/find_table', methods=["POST"], endpoint="find_table")
+@require_login
+def find_table(factory):
+    regex = re.compile(r"^[a-zA-Z_.0-9]+$")
     name = request.form.get('name')
     name = regex.match(name).group()
-    page_size = request.form.get("page-size", "")
-    page_size = int(page_size) if page_size.isdigit() else 15
+    return user_run_query(factory, "select * from " + name)
 
-    factory = SQLFactory()
-    if not factory.user_login(session['username'], session['password']):
-        factory.closeAll()
-        return {
-                   "result": "failure",
-                   "errno": -2,
-                   "errmsg": "Password changed",
-               }, 401
 
+def user_run_query(factory, query, page_size=15, page_num=0):
     try:
         cursor = factory.get_user_cursor()
-        rowcount = cursor.execute("select * from " + name)
+        rowcount = cursor.execute(query)
+        cursor.scroll(page_size * page_num)
+
+        root_cursor = factory.get_root_cursor()
+        if root_cursor.execute("select 1 from manage.saved_query where sid=%s", (session['username'],)) > 0:
+            root_cursor.execute("delete from manage.saved_query where sid=%s", (session['username'],))
+        root_cursor.execute("insert into manage.saved_query values (%s,%s)", (session['username'], query))
+
         return {
             "result": "success",
             "rowcount": rowcount,
-            "data": cursor.fetchmany(min(rowcount, page_size)),
+            "data": cursor.fetchmany(page_size),
             "description": cursor.description,
         }
     except MySQLError as e:
@@ -276,6 +258,17 @@ def find_table():
         }
     finally:
         factory.closeAll()
+
+
+@app.route('/user/select_page', methods=["POST"], endpoint="user_select_page")
+@require_login
+def user_select_page(factory):
+    page_num = int(request.form.get("page", "1"))
+    print(page_num)
+    cursor = factory.get_root_cursor()
+    cursor.execute("select query from manage.saved_query where sid=%s", (session['username'], ))
+    query = cursor.fetchone()[0]
+    return user_run_query(factory, query, page_num=page_num)
 
 
 if __name__ == '__main__':
