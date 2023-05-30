@@ -3,7 +3,7 @@ import re
 
 class Problem:
     def __init__(self, test_id, cursor):
-        cursor.execute("select test_name,test_desc,expected_time,score from manage.test_table where test_id=%s", (test_id,))
+        cursor.execute("select test_name,test_desc,CONVERT_TZ(expected_time, 'UTC', '+8:00'),score from manage.test_table where test_id=%s", (test_id,))
         result = cursor.fetchone()
         self.idx = test_id
         self.title, self.description, self.expected_time, self.score = result
@@ -11,7 +11,7 @@ class Problem:
 
 class Submission:
     def __init__(self, sid, test_id, cursor):
-        cursor.execute("select submission_time, result from manage.record where sid=%s and test_id=%s", (sid, test_id))
+        cursor.execute("select CONVERT_TZ(submission_time, 'UTC', '+8:00'), result from manage.record where sid=%s and test_id=%s", (sid, test_id))
         if cursor.rowcount == 0:
             self.time = "N/A"
             self.message = ""

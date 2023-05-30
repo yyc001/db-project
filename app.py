@@ -14,11 +14,10 @@ app = Flask(__name__,
 app.config['SECRET_KEY'] = '\x0fW\xdc\x13\xeel(\xe9\xb5\xbaa\xa4\xc0\xb5\xaaK^\xd1Y\x81)#\x92T'
 app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
 
-@app.route('/homepage')
+
+@app.route('/home')
 def homepage():
     return render_template("homepage.html")
-
-
 
 
 def require_login(func):
@@ -63,7 +62,7 @@ def index():
         cursor.execute("select set_id,test_id from manage.test_table limit 1")
         result = cursor.fetchone()
         return redirect(f"/question/{result[0]}/{result[1]}")
-    return redirect('/login')
+    return redirect('/home')
 
 
 @app.route('/login')
@@ -170,7 +169,7 @@ def check_same_table(user_db, test, cursor):
     cursor.execute(f"select * from {user_db}.{test}")
     user_rownum = cursor.rowcount
     user_description = cursor.description
-    user_description = set([desc[0] for desc in user_description])
+    user_description = set([desc[0] for desc in user_description ])
 
     leak = std_description - user_description
     more = user_description - std_description
@@ -266,7 +265,7 @@ def user_select_page(factory):
     page_num = int(request.form.get("page", "1"))
     print(page_num)
     cursor = factory.get_root_cursor()
-    cursor.execute("select query from manage.saved_query where sid=%s", (session['username'], ))
+    cursor.execute("select query from manage.saved_query where sid=%s", (session['username'],))
     query = cursor.fetchone()[0]
     return user_run_query(factory, query, page_num=page_num)
 

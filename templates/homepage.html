@@ -20,7 +20,7 @@ body, html {
 .bgimg-1 {
   background-position: center;
   background-size: cover;
-  background-image: url("/background.jpeg");
+  background-image: url("/background.jpg");
   min-height: 100%;
 }
 
@@ -37,7 +37,7 @@ body, html {
     <a href="#home" class="w3-bar-item w3-button w3-wide">数据库OJ</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-      <a href="/homepage" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="#" class="w3-bar-item w3-button">ABOUT</a>
       <a href="#team" class="w3-bar-item w3-button"><i class="fa "></i> TEAM</a>
       <a href="#work" class="w3-bar-item w3-button"><i class="fa "></i> WORK</a>
       <a href="/login" class="w3-bar-item w3-button"><i class="fa "></i> LOGIN</a>
@@ -53,12 +53,12 @@ body, html {
 
 
 <!-- Header with full-height image -->
-<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+<header class="bgimg-1 w3-display-container" id="home">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-hide-small">开始进入SQL的世界吧</span><br>
+    <span id="ppp" class="w3-jumbo w3-hide-small"></span><br>
     <span class="w3-xxlarge w3-hide-large w3-hide-medium">开始吧</span><br>
     <span class="w3-large">不要浪费时间了 </span>
-    <p><a href="/" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">了解更多并开始</a></p>
+    <p><a href="/login" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">了解更多并开始</a></p>
   </div>
 
 </header>
@@ -100,7 +100,7 @@ body, html {
       <p><a href="#work" class="w3-button w3-black"><i class="fa "></i> 我们的工作</a></p>
     </div>
     <div class="w3-col m6">
-      <img class="w3-image w3-round-large" src="/background.jpeg" alt="Buildings" width="700" height="394">
+      <img class="w3-image w3-round-large" src="/overview.png" alt="Buildings" width="700" height="394">
     </div>
   </div>
 </div>
@@ -109,37 +109,37 @@ body, html {
 <div class="w3-container" style="padding:128px 16px" id="team">
   <h3 class="w3-center">我们的团队</h3>
   <p class="w3-center w3-large">努力工作</p>
-  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+  <div class="w3-row-padding" style="margin-top:64px">
     <div class="w3-col l4 m6 w3-margin-bottom">
       <div class="w3-card">
-        <img src="/background.jpeg" alt="yyc" style="width:100%">
+        <img src="/yyc-profile.png" alt="yyc" style="width:100%">
         <div class="w3-container">
-          <h3>YYC</h3>
-          <p class="w3-opacity">xxx</p>
-          <p>你好,世界</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa "></i> Contact</button></p>
+          <h3>杨业昶</h3>
+          <p class="w3-opacity">后端开发+前端js</p>
+          <p>一只猫娘</p>
+          <p><a class="w3-button w3-light-grey w3-block" href="mailto:1594088331@qq.com"><i class="fa "></i> Contact</a></p>
         </div>
       </div>
     </div>
     <div class="w3-col l4 m6 w3-margin-bottom">
       <div class="w3-card">
-        <img src="/background.jpeg" alt="gjc" style="width:100%">
+        <img src="/gjc-profile.jpeg" alt="gjc" style="width:100%">
         <div class="w3-container">
-          <h3>GJC</h3>
-          <p class="w3-opacity">xxx</p>
-          <p>你好,世界</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa "></i> Contact</button></p>
+          <h3>管进程</h3>
+          <p class="w3-opacity">前端开发+美工</p>
+          <p>每天进步一点点</p>
+          <p><a class="w3-button w3-light-grey w3-block" href="mailto:1312873167@qq.com"><i class="fa "></i> Contact</a></p>
         </div>
       </div>
     </div>
     <div class="w3-col l4 m6 w3-margin-bottom">
       <div class="w3-card">
-        <img src="/background.jpeg" alt="cz" style="width:100%">
+        <img src="/cz-profile.jpg" alt="cz" style="width:100%">
         <div class="w3-container">
-          <h3>CZ</h3>
-          <p class="w3-opacity">xxx</p>
+          <h3>陈正</h3>
+          <p class="w3-opacity">数据库设计</p>
           <p>你好,世界</p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa "></i> Contact</button></p>
+          <p><a class="w3-button w3-light-grey w3-block" href="mailto:2560570216@qq.com"><i class="fa "></i> Contact</a></p>
         </div>
       </div>
     </div>
@@ -279,7 +279,7 @@ function w3_close() {
 
 <script>
     var test = document.querySelector('#ppp');
-    txt = "数据库OJ";
+    txt = "开始进入SQL的世界吧";
     arrtxt = txt.split(''); //将文本转换为数组
     var i = 0,
         timer = setInterval(function () {

@@ -83,11 +83,12 @@ create table record(
     sid varchar(12) not null,
     submission_time datetime not null,
     test_id varchar(12) not null,
-    result varchar(30) not null
+    result varchar(30) not null,
+    primary key (sid, test_id)
 );
 
 create table test_table(
-    test_id varchar(12) not null primary key,
+    test_id varchar(12) primary key,
     test_name varchar(12) not null,
     test_desc text not null,
     set_id varchar(12) not null,
