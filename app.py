@@ -268,7 +268,6 @@ def user_run_query(factory, query, page_size=15, page_num=0):
 @require_login
 def user_select_page(factory):
     page_num = int(request.form.get("page", "1"))
-    print(page_num)
     cursor = factory.get_root_cursor()
     cursor.execute("select query from manage.saved_query where sid=%s", (session['username'],))
     query = cursor.fetchone()[0]

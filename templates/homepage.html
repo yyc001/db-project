@@ -2,12 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>W3.CSS Template</title>
+<title>数据库OJ</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/homepage/w3.css">
 <link rel="stylesheet" href="/homepage/css.css">
 <link rel="stylesheet" href="/homepage/font-awesome.min.css">
+    <link rel="stylesheet" href="/jui/jquery-ui.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
@@ -27,6 +29,19 @@ body, html {
 .w3-bar .w3-button {
   padding: 16px;
 }
+
+ #subpage {
+            display: none;
+            position: sticky;
+            top: 10%;
+            width : 80vw;
+            height: 90vh;
+            padding: 20px;
+            border: 5px solid #f0f3f3;
+            background-color: white;
+            z-index:1002;
+            overflow: auto;
+        }
 </style>
 </head>
 <body>
@@ -170,37 +185,28 @@ body, html {
 
 <!-- Work Section -->
 <div class="w3-container" style="padding:128px 16px" id="work">
+    <div id="subpage" class="container-fluid bg-transparent shadow-lg p-3 mb-5 bg-body-tertiary rounded" >
+      <div class="modal-header">
+      <button id="close_win" type="button" class="btn btn-outline-info" >关闭</button>
+      <p class="modal-title" id="myModalLabel" style="font-size:1.2em;color:skyblue;">数据库OJ文档</p>
+      </div>
+      <div class="container-fluid modal-body " style="height:80%;"><div class="row" style="height:100%;">
+          <iframe src= "https://www.rocschool.com/";height= "50%"  width= "70%"></iframe>
+      </div>
+
+      </div>
+    </div>
   <h3 class="w3-center">我们的工作</h3>
   <p class="w3-center w3-large">我们OJ的设计</p>
 
-  <div class="w3-row-padding" style="margin-top:64px">
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-  </div>
 
-  <div class="w3-row-padding w3-section">
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
-    <div class="w3-col l3 m6">
-      <p>1</p>
-    </div>
+
+  <div class="w3-row-padding w3-section" align="center">
+    <img id="graph" class="w3-center" src="/work.png">
+
+
+
+
   </div>
 </div>
 
@@ -246,7 +252,8 @@ body, html {
   <a href="#home" class="w3-button w3-light-grey">To the top</a>
 
 </footer>
-
+<script src="/jui/jquery-3.7.0.min.js"></script>
+<script src="/jui/jquery-ui.js"></script>
 <script>
 // Modal Image Gallery
 function onClick(element) {
@@ -289,6 +296,17 @@ function w3_close() {
                 clearInterval(timer);
             }
         }, 222);
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#graph").click(function () {
+            document.getElementById('subpage').style.display = 'block'
+        });
+        $("#close_win").click(function () {
+            document.getElementById('subpage').style.display = 'none'
+        })
+    })
 </script>
 </body>
 </html>
