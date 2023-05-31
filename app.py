@@ -241,7 +241,8 @@ def user_run_query(factory, query, page_size=15, page_num=0):
         cursor = factory.get_user_cursor()
         rowcount = cursor.execute(query)
         if rowcount:
-            cursor.scroll(page_size * page_num)
+            if page_num > 0:
+                cursor.scroll(page_size * page_num)
             root_cursor = factory.get_root_cursor()
             if root_cursor.execute("select 1 from manage.saved_query where sid=%s", (session['username'],)) > 0:
                 root_cursor.execute("delete from manage.saved_query where sid=%s", (session['username'],))
