@@ -3,4 +3,4 @@ __pycache__/
 get-docker.sh
 venv/
 env/
-docker/
+.docker/
